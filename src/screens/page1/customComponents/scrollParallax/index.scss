@@ -1,0 +1,17 @@
+@import "src/App.scss";
+
+.ParallaxWrapper {
+  height: 500px;
+  align-items: center;
+
+  .boxParallaxExample {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    background-color: gray;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 180">
+  <defs>
+    <linearGradient id="linear-gradient" x1="-2992.58" y1="-5704.11" x2="-2949.37" y2="-5704.11" gradientTransform="translate(-6138.36 1441.13) rotate(105.02)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#eceeee"/>
+      <stop offset="0.13" stop-color="#e7e8e9"/>
+      <stop offset="0.62" stop-color="#d8d8dc"/>
+      <stop offset="1" stop-color="#d3d2d7"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <circle cx="88.95" cy="78.64" r="27.72" fill="none"/>
+    </clipPath>
+  </defs>
+  <g style="isolation: isolate">
+    <g id="Layer_1" data-name="Layer 1">
+      <g>
+        <g>
+          <path d="M57.49,140.34a64.49,64.49,0,1,0-5.25-5.21" fill="#00845e"/>
+          <circle cx="140.93" cy="50.42" r="21.6" fill="url(#linear-gradient)" style="mix-blend-mode: multiply"/>
+        </g>
+        <g>
+          <g clip-path="url(#clip-path)">
+            <g>
+              <circle cx="88.78" cy="67.52" r="9.22" transform="translate(-13.14 22.2) rotate(-13.28)" fill="#f2f2f2"/>
+              <path d="M107,83.87a4.31,4.31,0,0,0-3.79-3.53,3.79,3.79,0,0,0-1,.06,3.83,3.83,0,0,1-1.92-.21l-.26-.08-6.48-1.47-2.93,3.18a2.66,2.66,0,0,1-3.92,0L83.8,78.64,77.52,80.1l-.13,0a6.42,6.42,0,0,1-2.18.2,3.39,3.39,0,0,0-.71,0,4.35,4.35,0,0,0-3.65,3.54l-4.41,22.46h7.47l3.07-13v13h23.74V92.5L104,106.36h7.46Z" fill="#f2f2f2"/>
+            </g>
+          </g>
+          <circle cx="88.95" cy="78.64" r="27.72" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <line x1="115.51" y1="86.57" x2="152.62" y2="97.65" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <line x1="110.32" y1="96.28" x2="124.33" y2="107.83" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <line x1="70.38" y1="99.22" x2="56.42" y2="114.69" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <line x1="105.09" y1="56.11" x2="128.68" y2="23.18" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <line x1="70.1" y1="59" x2="51.24" y2="39.36" fill="none" stroke="#2b3c49" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.34"/>
+          <g>
+            <circle cx="51.24" cy="39.36" r="9.98" fill="#2b3c49"/>
+            <circle cx="124.33" cy="107.83" r="7.25" fill="#2b3c49"/>
+            <circle cx="152.62" cy="97.65" r="5.41" fill="#2b3c49"/>
+            <circle cx="128.68" cy="23.18" r="11.6" fill="#2b3c49"/>
+            <circle cx="56.42" cy="114.69" r="11.6" fill="#2b3c49"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="grafismo3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 2500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4dbbce;
+        opacity: .4;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="151.21" y="1894.5" width="1040.1" height="253.64" transform="translate(1342.53 4042.64) rotate(180)"/>
+</svg>

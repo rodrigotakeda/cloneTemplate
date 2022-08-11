@@ -1,0 +1,32 @@
+{
+    "curso": {
+		"modulo": "",
+        "titulo": "Template React",
+		"loader": false,
+		"template": "custom",
+		"menu": "",
+		"logo":"data/logoSenac.png",
+		"conteudo": {
+			"telas":[
+								{					
+					"route": "page1",
+					"titulo": "Página 01"
+				},
+				{					
+					"route": "quizz",
+					"titulo": "Quizz"
+				},
+				{					
+					"route": "page3",
+					"titulo": "Página 03"
+				},
+				{					
+					"route": "page4",
+					"titulo": "Página 04"
+				}
+				
+			]
+		}
+	}
+}
+
