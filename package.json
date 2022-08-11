@@ -2,7 +2,7 @@
   "name": "template_projetos_tae",
   "version": "0.1.0",
   "private": true,
-
+"homepage": "",
   "dependencies": {
     "@img-comparison-slider/react": "^7.4.3",
     "@silvermine/videojs-quality-selector": "^1.2.5",

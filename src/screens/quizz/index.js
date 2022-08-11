@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
 import Header from "../../components/header";
 import Wrapper from "../../components/wrapper";
 import Footer from "../../components/footer";
-
+import TituloTextos from "./customComponents/titulosTextos";
 import Title from "../../components/texts/title";
-import Quizzes from "./customComponents/quizz";
 
 function Quizz() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
@@ -30,9 +29,10 @@ function Quizz() {
     <Fragment>
       <Header hideOnScroll setTemaCor={setTemaCor} className="" />
       <Wrapper>
-        <Title typeH="1" className="" content={<Fragment>Quizz</Fragment>} />
+        <Title typeH="1" className="" content={<Fragment>Page 1</Fragment>} />
         <hr />
-        <Quizzes sectionTitle="Tipos de quizz" />
+
+        <TituloTextos sectionTitle="Títulos e textos" />
       </Wrapper>
       <Footer fixed className="" />
     </Fragment>
