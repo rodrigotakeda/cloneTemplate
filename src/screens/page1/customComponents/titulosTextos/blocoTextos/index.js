@@ -7,7 +7,7 @@ import Title from "../../../../../components/texts/title";
 
 //Imagens
 
-function BlocoTextos() {
+function BlocoTextos(props) {
   const textsBlock1 = [
     {
       tagElement: "p",

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import React from "react";
 import { useEffect, useContext } from "react";
 import Page1 from "./screens/page1";
@@ -22,7 +22,7 @@ function ScreenRoutes(props) {
   });
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Routes>
         <Route
           exact
@@ -33,7 +33,7 @@ function ScreenRoutes(props) {
         />
         {allPages}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

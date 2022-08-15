@@ -8,7 +8,7 @@ import PagesService from "./services/pages";
 import ScreenRoutes from "./routes";
 import GlobalState from "./contexts/globalState"; //state global
 import { ParallaxProvider } from "react-scroll-parallax";
-// import ScormProvider from "react-scorm-provider";
+import ScormProvider from 'react-scorm-provider';
 
 function App() {
   const [pagesData, setPagesData] = useState(false);
@@ -57,13 +57,15 @@ function App() {
     );
   } else {
     document.title = pagesData.curso.titulo;
-
+    
     return (
-      <GlobalState.Provider value={{ pagesData, setPagesData }}>
-        <ParallaxProvider>
-          <ScreenRoutes pagesData={pagesData} />
-        </ParallaxProvider>
-      </GlobalState.Provider>
+      <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
+        <GlobalState.Provider value={{ pagesData, setPagesData }}>
+          <ParallaxProvider>
+            <ScreenRoutes pagesData={pagesData} />
+          </ParallaxProvider>
+        </GlobalState.Provider>
+      </ScormProvider>
     );
   }
 }
