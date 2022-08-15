@@ -11,11 +11,10 @@ function ScormComplete(props) {
   }, []);
   
     return (
-      <div>XIS</div>
+      <div>MILAGRES</div>
     );  
 }
 
 export const ScoLearner = withScorm()(ScormComplete)
 
 export default ScormComplete;
-
