@@ -28,6 +28,20 @@ function List(props) {
         </li>
       );
     }
+
+    // passe um anchor para criar uma lista com rotas
+    if (list.menu) {
+      return (
+        <li 
+          key={id} 
+          onClick={(e) => props.onClick(e)} 
+          className={list.className} 
+          data-top={list.menu}>
+            {list.content}
+        </li>
+      );
+    }
+
     return (
       <li
         key={id}

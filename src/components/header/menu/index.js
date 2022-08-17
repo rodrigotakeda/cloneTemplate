@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 // Components
 import { Container, Row, Col } from "react-bootstrap";
 import List from "../../texts/lists";
+// import BotaoMenu from "./menu/botaomenu";
 
 function Menu(props) {
   const [menuListTop, setMenuListTop] = useState([]);
@@ -19,34 +20,43 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {   
-    // const menuList = new Map()
-    // setMenuListTop(menuList.map((menuItem, id) => {   
-    //   menuItem.set('content', menuItem.getAttribute('data-secao'))
-    //   return( menuItem )
-    // }))  
-      setLoad(true)
+    setMenuListTop(menuList.map((menuItem, id) => {
+      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao') }
+    }))  
+    setLoad(true)
   },[load]);
 
-
-  // useEffect(() => {
-  //   console.log(props.mode,menuListTop.length,load)
-  //   if(props.mode == "onepage"){
-  //     if(menuListTop.length !== 0){
-  //       // criaMenu();
-  //       // setLoad(true)
-  //     } 
-  //   }  
+  function clickMenu(e) {
+    props.setMenuIsOpen(!props.menuIsOpen)
+    let scrollTo = e.target.getAttribute('data-top');
+    window.scrollTo({
+      top: scrollTo - 30,
+      behavior: 'smooth',
+    });
+  }
  
-  // },[load]);
-
-
-  console.log(menuListTop)
-  
   if(!load && menuListTop.length !== 0){
     return(
       <div>carregando</div>
     )
-  }else{
+  } else {
+    let menuRender;
+
+    if(props.mode === "onepage"){
+      menuRender = <List
+        tagElement="ul"
+        className="ulMenuOne"
+        listItens={menuListTop}
+        onClick={clickMenu}
+      />
+    } else {
+      menuRender = <List
+        tagElement="ul"
+        className="ulMenu"
+        listItens={props.pagesData.curso.conteudo.telas}
+      />
+    }
+
     return (
       <nav
         className={`navComponent ${props.className} ${
@@ -56,19 +66,8 @@ function Menu(props) {
         <Container>
           <Row>
             <Col>
-              <span>{menuListTop}</span>
               <div className="conteudoMenu">
-                {/* <List
-                  tagElement="ul"
-                  className="ulMenu"
-                  listItens={props.pagesData.curso.conteudo.telas}
-                /> */}
-  
-                <List
-                  tagElement="ul"
-                  className="ulMenu"
-                  listItens={menuListTop}
-                />
+                { menuRender }
               </div>
             </Col>
           </Row>
