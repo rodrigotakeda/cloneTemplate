@@ -10,7 +10,7 @@ import BlocoListas from "./blocoListas";
 
 function TituloTextos(props) {
   return (
-    <section>
+    <section data-secao={props.sectionTitle}>
       <Container>
         <Row className="">
           <Col xs="12">
@@ -36,6 +36,8 @@ function TituloTextos(props) {
           <BlocoListas />
         </Row>
       </Container>
+
+      <hr/><br/>
     </section>
   );
 }

@@ -15,24 +15,23 @@ function ProgressPage(props) {
   const [lastWidthBar, setLastWidthBar] = useState(0);
   const [endPosition, setEndPosition] = useState(false);
 
-  // const [menuListTop, setMenuListTop] = useState([]);
-  // const sectionRef = useRef(null);
+  const [menuListTop, setMenuListTop] = useState([]);
+  const menuList = Array.apply(null,document.querySelectorAll('section'));
 
   useEffect(() => {
-    // let menuList = Array.apply(null,document.querySelectorAll('[menuoption]'))
-    // setMenuListTop(menuList.map((menuItem, id) => {
-    //   return( menuItem.offsetTop )
-    // }))
-    
     window.addEventListener("scroll", scrollPoint);
 
     return () => {
       window.removeEventListener("scroll", scrollPoint);
     };
-  }, [lastWidthBar]);
+  }, [lastWidthBar, menuListTop]);
 
-  //VarLearner();
- 
+  useEffect(() => {
+    setMenuListTop(menuList.map((menuItem, id) => {
+      return( menuItem.offsetTop )
+    }))  
+  },[]);
+
   function scrollPoint() {
     let scrollHeight = window.pageYOffset + window.innerHeight;
     let scrollPosition = document.documentElement.scrollHeight;
@@ -42,8 +41,6 @@ function ProgressPage(props) {
     }
 
     if (endPosition) {
-      //{() => props.sco.setStatus('completed')}
-      
       setEndPosition(false);
     } else {
       let barUpdated = calcPercentage(window.pageYOffset, (scrollPosition - window.innerHeight));

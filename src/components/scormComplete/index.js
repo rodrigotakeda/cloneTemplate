@@ -11,7 +11,7 @@ function ScormComplete(props) {
   }, []);
   
     return (
-      <div>MILAGRES</div>
+      <div className="sr-only">Complete</div>
     );  
 }
 

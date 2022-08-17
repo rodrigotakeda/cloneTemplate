@@ -40,8 +40,11 @@ function Page1() {
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
-
-  
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
       </Wrapper>
 
       <Footer fixed className="" />

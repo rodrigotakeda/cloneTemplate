@@ -97,7 +97,7 @@ function Header(props) {
         </Row>
       </Container>
       <Menu
-        mode="varias paginas"
+        mode="onepage"
         setMenuIsOpen={setMenuIsOpen}
         menuIsOpen={menuIsOpen}
         pagesData={pagesData}
