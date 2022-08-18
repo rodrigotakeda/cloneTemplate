@@ -14,6 +14,7 @@ function Menu(props) {
   const [menuListTop, setMenuListTop] = useState([]);
   const [load, setLoad] = useState(false);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
+  const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
 
   useEffect(() => {
     document.body.classList.toggle("overflow", props.menuIsOpen);
@@ -21,7 +22,7 @@ function Menu(props) {
 
   useEffect(() => {   
     setMenuListTop(menuList.map((menuItem, id) => {
-      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao') }
+      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), index: id }
     }))  
     setLoad(true)
   },[load]);
@@ -33,6 +34,10 @@ function Menu(props) {
       top: scrollTo - 30,
       behavior: 'smooth',
     });
+    // e.target.className = `${ props.className ? "" : "active"}`;
+    
+    const menuClicked = this.listItens.find(obj => { return Number(obj.menu) === Number(scrollTo); });
+    setCurrentMenuAtual(menuClicked.index);
   }
  
   if(!load && menuListTop.length !== 0){
@@ -47,6 +52,7 @@ function Menu(props) {
         tagElement="ul"
         className="ulMenuOne"
         listItens={menuListTop}
+        menuAtivo={currentMenuAtual}
         onClick={clickMenu}
       />
     } else {

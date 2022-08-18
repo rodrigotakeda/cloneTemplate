@@ -16,6 +16,9 @@ function ProgressPage(props) {
   const [endPosition, setEndPosition] = useState(false);
 
   const [menuListTop, setMenuListTop] = useState([]);
+  const [load, setLoad] = useState(false);
+
+  const [menuScrolled, setMenuScrolled] = useState(0);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
 
   useEffect(() => {
@@ -24,13 +27,14 @@ function ProgressPage(props) {
     return () => {
       window.removeEventListener("scroll", scrollPoint);
     };
-  }, [lastWidthBar, menuListTop]);
+  }, [lastWidthBar, menuListTop, menuScrolled]);
 
   useEffect(() => {
     setMenuListTop(menuList.map((menuItem, id) => {
-      return( menuItem.offsetTop )
-    }))  
-  },[]);
+      return({ menu: menuItem.offsetTop, index: id })
+    }))
+    setLoad(true)
+  },[load]);
 
   function scrollPoint() {
     let scrollHeight = window.pageYOffset + window.innerHeight;
@@ -38,7 +42,18 @@ function ProgressPage(props) {
 
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
       setEndPosition(true);
+
     }
+
+    let altPosition = window.pageYOffset;
+    let numMaior = 0;
+    setMenuScrolled(
+      menuListTop.forEach(obj => {
+        if (Number(altPosition) >= obj.menu) { numMaior = obj.index; }
+      })
+    )
+    console.log(menuListTop[numMaior])
+    // console.log(menuScrolled)
 
     if (endPosition) {
       setEndPosition(false);
@@ -58,16 +73,22 @@ function ProgressPage(props) {
 
   const scoDiv = ( endPosition && <ScoLearner/> )
 
-  return (
-    <Fragment>
-      <div className={`progress ${props.className}`}>
-        <div className="progressBar" style={{ width: `${widthBar}%` }}></div>
+  if(!load && menuListTop.length !== 0){
+    return(
+      <div>carregando</div>
+    )
+  } else {
+    return (
+      <Fragment>
+        <div className={`progress ${props.className}`}>
+          <div className="progressBar" style={{ width: `${widthBar}%` }}></div>
 
-        <span>{widthBar}%</span>
-      </div>
-      {scoDiv}
-    </Fragment>
-  );  
+          <span>{widthBar}%</span>
+        </div>
+        {scoDiv}
+      </Fragment>
+    ); 
+  }
 }
 
 export default ProgressPage;

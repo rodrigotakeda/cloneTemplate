@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 function List(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
   let TagElement = props.tagElement;
+
   const listItens = props.listItens.map((list, id) => {
     // passe um anchor para criar uma lista com links
-
     if (list.anchor) {
       return (
         <li key={id} className={list.className}>
@@ -29,13 +29,13 @@ function List(props) {
       );
     }
 
-    // passe um anchor para criar uma lista com rotas
+    // 
     if (list.menu) {
       return (
         <li 
-          key={id} 
+          key={id}
           onClick={(e) => props.onClick(e)} 
-          className={list.className} 
+          className={`${ props.menuAtivo===id ? "active" : ""}`} 
           data-top={list.menu}>
             {list.content}
         </li>
