@@ -35,7 +35,8 @@ function List(props) {
         <li 
           key={id}
           onClick={(e) => props.onClick(e)} 
-          className={`${ props.menuAtivo===id ? "active" : ""}`} 
+          // className={`${ props.menuAtivo===id ? "active" : ""}`} 
+          className={props.itemClass} 
           data-top={list.menu}>
             {list.content}
         </li>

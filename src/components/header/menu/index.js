@@ -2,8 +2,9 @@
 import "./index.scss";
 
 // React Elements/Hooks
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+// import { Link } from "react-router-dom";
+import GlobalState from "../../../contexts/globalState";
 
 // Components
 import { Container, Row, Col } from "react-bootstrap";
@@ -15,12 +16,29 @@ function Menu(props) {
   const [load, setLoad] = useState(false);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
+  const [currentClass, setCurrentClass] = useState('');
+
+  const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
 
   useEffect(() => {
     document.body.classList.toggle("overflow", props.menuIsOpen);
   }, [props.menuIsOpen]);
 
-  useEffect(() => {   
+  useEffect(() => {
+    window.addEventListener("scroll", scrollMenu);
+
+    return () => {
+      window.removeEventListener("scroll", scrollMenu);
+    };
+  }, [menuScrolled]);
+
+  function scrollMenu() {
+    //setCurrentClass()
+    
+    setCurrentMenuAtual(menuScrolled);
+  }
+
+  useEffect(() => {
     setMenuListTop(menuList.map((menuItem, id) => {
       return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), index: id }
     }))  
@@ -34,10 +52,6 @@ function Menu(props) {
       top: scrollTo - 30,
       behavior: 'smooth',
     });
-    // e.target.className = `${ props.className ? "" : "active"}`;
-    
-    const menuClicked = this.listItens.find(obj => { return Number(obj.menu) === Number(scrollTo); });
-    setCurrentMenuAtual(menuClicked.index);
   }
  
   if(!load && menuListTop.length !== 0){
@@ -53,6 +67,7 @@ function Menu(props) {
         className="ulMenuOne"
         listItens={menuListTop}
         menuAtivo={currentMenuAtual}
+        itemClass={currentClass}
         onClick={clickMenu}
       />
     } else {

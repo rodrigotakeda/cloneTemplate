@@ -16,6 +16,7 @@ function Header(props) {
   const [headerStyle, setHeaderStyle] = useState(headerInitialPos);
   const [showHeader, setShowHeader] = useState(true);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const menuIsScorm = useState(false);
 
   const headerRef = useRef(null);
   const { pagesData, setPagesData } = useContext(GlobalState);
@@ -97,7 +98,8 @@ function Header(props) {
         </Row>
       </Container>
       <Menu
-        mode="onepage"
+        mode={pagesData.curso.mode}
+        menuIsScorm={pagesData.curso.scorm}
         setMenuIsOpen={setMenuIsOpen}
         menuIsOpen={menuIsOpen}
         pagesData={pagesData}

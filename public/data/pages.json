@@ -2,6 +2,8 @@
     "curso": {
 		"modulo": "",
         "titulo": "Template React",
+		"mode" : "onepage",
+		"scorm" : false,
 		"loader": false,
 		"template": "custom",
 		"menu": "",

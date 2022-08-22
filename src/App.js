@@ -12,7 +12,8 @@ import ScormProvider from 'react-scorm-provider';
 
 function App() {
   const [pagesData, setPagesData] = useState(false);
-
+  const [menuScrolled, setMenuScrolled] = useState(0);
+  
   //checagem se o navegador suporta o userAgentData
   let platform =
     navigator?.userAgentData?.platform || navigator?.platform || "unknown";
@@ -60,7 +61,7 @@ function App() {
     
     return (
       <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
-        <GlobalState.Provider value={{ pagesData, setPagesData }}>
+        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled }}>
           <ParallaxProvider>
             <ScreenRoutes pagesData={pagesData} />
           </ParallaxProvider>

@@ -10,12 +10,9 @@ import TituloTextos from "./customComponents/titulosTextos";
 import Title from "../../components/texts/title";
 import ProgressPage from "../../components/progressPage";
 
-
-
-
 function Page1() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
-
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

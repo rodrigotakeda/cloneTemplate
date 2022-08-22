@@ -2,12 +2,13 @@
 import "./index.scss";
 
 // React Elements/Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // Functions
 import calcPercentage from "../../globalFunctions/generalCalcs/calcPercentage";
 import { Fragment } from "react/cjs/react.production.min";
 import {ScoLearner} from "../scormComplete"
+import GlobalState from "../../contexts/globalState";
 
 function ProgressPage(props) {
   // none, onlyText, textBar, perSection
@@ -18,7 +19,8 @@ function ProgressPage(props) {
   const [menuListTop, setMenuListTop] = useState([]);
   const [load, setLoad] = useState(false);
 
-  const [menuScrolled, setMenuScrolled] = useState(0);
+  // const [menuScrolled, setMenuScrolled] = useState(0);
+  const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
 
   useEffect(() => {
@@ -42,18 +44,15 @@ function ProgressPage(props) {
 
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
       setEndPosition(true);
-
     }
 
     let altPosition = window.pageYOffset;
     let numMaior = 0;
-    setMenuScrolled(
-      menuListTop.forEach(obj => {
-        if (Number(altPosition) >= obj.menu) { numMaior = obj.index; }
-      })
-    )
-    console.log(menuListTop[numMaior])
-    // console.log(menuScrolled)
+    menuListTop.forEach(obj => {
+      if (Number(altPosition) >= obj.menu) { numMaior = obj.index; }
+    })
+
+    setMenuScrolled(numMaior)
 
     if (endPosition) {
       setEndPosition(false);
