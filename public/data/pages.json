@@ -3,7 +3,7 @@
 		"modulo": "",
         "titulo": "Template React",
 		"mode" : "onepage",
-		"scorm" : false,
+		"scorm" : true,
 		"loader": false,
 		"template": "custom",
 		"menu": "",

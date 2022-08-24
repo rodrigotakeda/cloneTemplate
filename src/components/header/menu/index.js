@@ -16,8 +16,6 @@ function Menu(props) {
   const [load, setLoad] = useState(false);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
-  const [currentClass, setCurrentClass] = useState('');
-
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
 
   useEffect(() => {
@@ -25,6 +23,7 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {
+    scrollMenu();
     window.addEventListener("scroll", scrollMenu);
 
     return () => {
@@ -33,19 +32,20 @@ function Menu(props) {
   }, [menuScrolled]);
 
   function scrollMenu() {
-    //setCurrentClass()
-    
     setCurrentMenuAtual(menuScrolled);
   }
 
   useEffect(() => {
     setMenuListTop(menuList.map((menuItem, id) => {
       return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), index: id }
-    }))  
+    }))
     setLoad(true)
+    
   },[load]);
 
   function clickMenu(e) {
+    if (e.target.className === "travado") return;
+    
     props.setMenuIsOpen(!props.menuIsOpen)
     let scrollTo = e.target.getAttribute('data-top');
     window.scrollTo({
@@ -67,7 +67,7 @@ function Menu(props) {
         className="ulMenuOne"
         listItens={menuListTop}
         menuAtivo={currentMenuAtual}
-        itemClass={currentClass}
+        scormAtivo={props.menuIsScorm}
         onClick={clickMenu}
       />
     } else {

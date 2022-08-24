@@ -2,11 +2,13 @@
 import "./index.scss";
 
 // React Elements/Hooks
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function List(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
   let TagElement = props.tagElement;
+  const [currentClass, setCurrentClass] = useState('');
 
   const listItens = props.listItens.map((list, id) => {
     // passe um anchor para criar uma lista com links
@@ -31,12 +33,24 @@ function List(props) {
 
     // 
     if (list.menu) {
+      // console.log('BUUUUU')
+      // useEffect(() => {
+      //   
+      // }, [currentClass]);
+
+      if(props.scormAtivo) {
+        if(props.menuAtivo === id) {
+          // setCurrentClass('travado')
+          console.log('Xis')
+        }
+      }
+
       return (
         <li 
           key={id}
           onClick={(e) => props.onClick(e)} 
           // className={`${ props.menuAtivo===id ? "active" : ""}`} 
-          className={props.itemClass} 
+          className={currentClass} 
           data-top={list.menu}>
             {list.content}
         </li>
