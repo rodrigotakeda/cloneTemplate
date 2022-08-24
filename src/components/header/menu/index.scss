@@ -149,6 +149,16 @@
                   &::before {
                     z-index: -1;
                   }
+
+                  &.travado {
+                    color: #aaa;
+                    cursor: default;
+
+                    &::before {
+                      background: #aaa;
+                      border-bottom-color: #666;
+                    }
+                  }
                 }
               }
             }

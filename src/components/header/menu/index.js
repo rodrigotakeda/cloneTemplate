@@ -16,7 +16,10 @@ function Menu(props) {
   const [load, setLoad] = useState(false);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
+  const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
+
+  const [itemsViewed, setItemsViewed] = useState([]);
 
   useEffect(() => {
     document.body.classList.toggle("overflow", props.menuIsOpen);
@@ -29,18 +32,20 @@ function Menu(props) {
     return () => {
       window.removeEventListener("scroll", scrollMenu);
     };
-  }, [menuScrolled]);
+  }, [menuScrolled, itemsViewed]);
 
   function scrollMenu() {
+    itemsViewed[menuScrolled] = 1;
     setCurrentMenuAtual(menuScrolled);
   }
 
   useEffect(() => {
+    setItemsViewed(menuList.map(() => { return 0; }))
     setMenuListTop(menuList.map((menuItem, id) => {
-      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), index: id }
+      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), visited: menuItem.getAttribute('data-seen'), index: id }
     }))
     setLoad(true)
-    
+  
   },[load]);
 
   function clickMenu(e) {
@@ -67,6 +72,7 @@ function Menu(props) {
         className="ulMenuOne"
         listItens={menuListTop}
         menuAtivo={currentMenuAtual}
+        lastVisited={itemsViewed}
         scormAtivo={props.menuIsScorm}
         onClick={clickMenu}
       />
