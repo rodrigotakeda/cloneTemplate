@@ -8,7 +8,7 @@ import GlobalState from "../../../contexts/globalState";
 
 // Components
 import { Container, Row, Col } from "react-bootstrap";
-import List from "../../texts/lists";
+import ListaMenu from "./listamenu";
 // import BotaoMenu from "./menu/botaomenu";
 
 function Menu(props) {
@@ -16,7 +16,7 @@ function Menu(props) {
   const [load, setLoad] = useState(false);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
-  const [lastItemViewed, setLastItemViewed] = useState(0);
+  // const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
 
   const [itemsViewed, setItemsViewed] = useState([]);
@@ -67,7 +67,7 @@ function Menu(props) {
     let menuRender;
 
     if(props.mode === "onepage"){
-      menuRender = <List
+      menuRender = <ListaMenu
         tagElement="ul"
         className="ulMenuOne"
         listItens={menuListTop}
@@ -77,7 +77,7 @@ function Menu(props) {
         onClick={clickMenu}
       />
     } else {
-      menuRender = <List
+      menuRender = <ListaMenu
         tagElement="ul"
         className="ulMenu"
         listItens={props.pagesData.curso.conteudo.telas}

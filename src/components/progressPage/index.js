@@ -70,8 +70,6 @@ function ProgressPage(props) {
     }
   }
 
-  const scoDiv = ( endPosition && <ScoLearner/> )
-
   if(!load && menuListTop.length !== 0){
     return(
       <div>carregando</div>
@@ -84,7 +82,6 @@ function ProgressPage(props) {
 
           <span>{widthBar}%</span>
         </div>
-        {scoDiv}
       </Fragment>
     ); 
   }
