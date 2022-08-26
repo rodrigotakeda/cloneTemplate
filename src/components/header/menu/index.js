@@ -13,11 +13,13 @@ import ListaMenu from "./listamenu";
 
 function Menu(props) {
   const [menuListTop, setMenuListTop] = useState([]);
+  const [menuListPages, setMenuListPages] = useState([]);
   const [load, setLoad] = useState(false);
-  const menuList = Array.apply(null,document.querySelectorAll('section'));
+  let menuList = [];
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
   // const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
+  const { endPosition, setEndPosition } = useContext(GlobalState);
 
   const [itemsViewed, setItemsViewed] = useState([]);
 
@@ -26,13 +28,15 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {
-    scrollMenu();
-    window.addEventListener("scroll", scrollMenu);
+    if(props.mode === "onepage"){
+      scrollMenu();
+      window.addEventListener("scroll", scrollMenu);
 
-    return () => {
-      window.removeEventListener("scroll", scrollMenu);
-    };
-  }, [menuScrolled, itemsViewed]);
+      return () => {
+        window.removeEventListener("scroll", scrollMenu);
+      };
+    }
+  }, [menuScrolled, endPosition, itemsViewed]);
 
   function scrollMenu() {
     itemsViewed[menuScrolled] = 1;
@@ -40,12 +44,21 @@ function Menu(props) {
   }
 
   useEffect(() => {
-    setItemsViewed(menuList.map(() => { return 0; }))
-    setMenuListTop(menuList.map((menuItem, id) => {
-      return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), visited: menuItem.getAttribute('data-seen'), index: id }
-    }))
+    if(props.mode === "onepage"){
+      menuList = Array.apply(null,document.querySelectorAll('section'));
+      setItemsViewed(menuList.map(() => { return 0; }))
+      setMenuListTop(menuList.map((menuItem, id) => {
+        return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), visited: menuItem.getAttribute('data-seen'), index: id }
+      }))
+    } else {
+      menuList = props.pagesData.curso.conteudo.telas;
+      setMenuListPages(menuList.map((pageItem, id) => { 
+        return { route: pageItem.route, content: pageItem.titulo, index: id }
+      }))
+      setCurrentMenuAtual(props.pagesData.curso.conteudo.telas[props.pageAtual - 1].route);
+    }
+
     setLoad(true)
-  
   },[load]);
 
   function clickMenu(e) {
@@ -69,18 +82,22 @@ function Menu(props) {
     if(props.mode === "onepage"){
       menuRender = <ListaMenu
         tagElement="ul"
+        tipoMenu="onepage"
         className="ulMenuOne"
+        bottomReached={endPosition}
         listItens={menuListTop}
         menuAtivo={currentMenuAtual}
         lastVisited={itemsViewed}
-        scormAtivo={props.menuIsScorm}
         onClick={clickMenu}
       />
     } else {
+      // console.log("Menu", props.pageAtual)
       menuRender = <ListaMenu
         tagElement="ul"
+        tipoMenu="multipage"
         className="ulMenu"
-        listItens={props.pagesData.curso.conteudo.telas}
+        listItens={menuListPages}
+        menuAtivo={currentMenuAtual}
       />
     }
 

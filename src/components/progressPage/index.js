@@ -14,13 +14,13 @@ function ProgressPage(props) {
   // none, onlyText, textBar, perSection
   const [widthBar, setWidthBar] = useState(0);
   const [lastWidthBar, setLastWidthBar] = useState(0);
-  const [endPosition, setEndPosition] = useState(false);
-
+  
   const [menuListTop, setMenuListTop] = useState([]);
   const [load, setLoad] = useState(false);
 
   // const [menuScrolled, setMenuScrolled] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
+  const { endPosition, setEndPosition } = useContext(GlobalState);
   const menuList = Array.apply(null,document.querySelectorAll('section'));
 
   useEffect(() => {
@@ -29,7 +29,7 @@ function ProgressPage(props) {
     return () => {
       window.removeEventListener("scroll", scrollPoint);
     };
-  }, [lastWidthBar, menuListTop, menuScrolled]);
+  }, [lastWidthBar, menuListTop, menuScrolled, endPosition]);
 
   useEffect(() => {
     setMenuListTop(menuList.map((menuItem, id) => {

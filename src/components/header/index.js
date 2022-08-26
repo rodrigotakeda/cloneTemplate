@@ -98,10 +98,10 @@ function Header(props) {
       </Container>
       <Menu
         mode={pagesData.curso.mode}
-        menuIsScorm={pagesData.curso.scorm}
         setMenuIsOpen={setMenuIsOpen}
         menuIsOpen={menuIsOpen}
         pagesData={pagesData}
+        pageAtual={props.pageAtual}
         className=""
       />
     </header>

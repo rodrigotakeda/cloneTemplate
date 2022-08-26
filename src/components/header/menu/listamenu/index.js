@@ -4,6 +4,7 @@ import "./index.scss";
 // React Elements/Hooks
 import { useEffect, useState } from "react";
 import { withScorm } from "react-scorm-provider";
+import { Link } from "react-router-dom";
 
 function ListaMenu(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
@@ -12,6 +13,7 @@ function ListaMenu(props) {
   let currentClass = '';
   // let newData = [];
   const [load, setLoad] = useState(false);
+  const [endScroll, setEndScroll] = useState(false);
   const isScorm = props.sco.apiConnected;
   
   const [listItens, setListItens] = useState([]);
@@ -65,7 +67,6 @@ function ListaMenu(props) {
   
   useEffect(() => {
     // newData = [...newSuspendData];
-
     if (load && newSuspendData !== '') { 
       setListItens(props.listItens.map((list, id) => {
         if(isScorm) {
@@ -78,29 +79,48 @@ function ListaMenu(props) {
           }
         } else {
           currentClass = '';
-          if (props.lastVisited[id] === 1) {
-            newSuspendData[id] = 1;
-          }
           if(id === props.menuAtivo) { currentClass = 'active'; }
         }
-          
-        return (
-          <li 
-            key={id}
-            onClick={(e) => props.onClick(e)} 
-            // className={`${ props.menuAtivo===id ? "active" : ""}`} 
-            className={currentClass} 
-            // data-seen={dataSeen}
-            data-top={list.menu}>
-              {list.content}
-          </li>
-        );
+
+        if(props.tipoMenu === "onepage") {
+          return (
+            <li 
+              key={id}
+              onClick={(e) => props.onClick(e)} 
+              // className={`${ props.menuAtivo===id ? "active" : ""}`} 
+              className={currentClass} 
+              // data-seen={dataSeen}
+              data-top={list.menu}>
+                {list.content}
+            </li>
+          );
+        } else {
+          return (
+            <li
+              key={id}
+              className={`${list.className ? list.className : "routeItem"} ${
+                list.route == props.menuAtivo ? "active" : ""
+              }`}
+              >
+              <Link to={`/${list.route}`}>{list.content}</Link>
+            </li>
+          );
+        }
       }));
 
-      // console.log(newSuspendData)
-      props.sco.setSuspendData("menu", newSuspendData);
+      if(isScorm) {
+        props.sco.setSuspendData("menu", newSuspendData);
+
+        if (props.bottomReached && !endScroll) {
+          let newArr = [...newSuspendData];
+          newArr.forEach(obj => { obj = 1; })
+          props.sco.setSuspendData("menu", newArr);
+          props.sco.setStatus("completed");
+          setEndScroll(true);
+        }
+      }
     }
-  },[load, props.menuAtivo, newSuspendData]);
+  },[load, props, endScroll, newSuspendData]);
 
 
   // console.log(newState);

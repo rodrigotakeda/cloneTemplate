@@ -10,7 +10,7 @@ import TituloTextos from "./customComponents/titulosTextos";
 import Title from "../../components/texts/title";
 import ProgressPage from "../../components/progressPage";
 
-function Page1() {
+function Page2() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
  
   useEffect(() => {
@@ -29,10 +29,10 @@ function Page1() {
   return (
     <Fragment>
       <ProgressPage className="textBar d-none" />
-      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={1} className="" />
+      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={2} className="" />
       <Wrapper>
         <TituloTextos sectionTitle="Títulos e textos" />
-        <Title typeH="1" className="" content={<Fragment>Page 1</Fragment>} />
+        <Title typeH="1" className="" content={<Fragment>Page 2</Fragment>} />
         <hr />
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
@@ -48,4 +48,4 @@ function Page1() {
   );
 }
 
-export default Page1;
+export default Page2;

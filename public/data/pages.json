@@ -2,7 +2,7 @@
     "curso": {
 		"modulo": "",
         "titulo": "Template React",
-		"mode" : "onepage",
+		"mode" : "",
 		"scorm" : true,
 		"loader": false,
 		"template": "custom",
@@ -10,13 +10,13 @@
 		"logo":"data/logoSenac.png",
 		"conteudo": {
 			"telas":[
-								{					
+				{					
 					"route": "page1",
 					"titulo": "Página 01"
 				},
 				{					
-					"route": "quizz",
-					"titulo": "Quizz"
+					"route": "page2",
+					"titulo": "Página 02"
 				},
 				{					
 					"route": "page3",
