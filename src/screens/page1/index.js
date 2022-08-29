@@ -31,7 +31,7 @@ function Page1() {
       <ProgressPage className="textBar d-none" />
       <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={1} className="" />
       <Wrapper>
-        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Page 1" />
         <Title typeH="1" className="" content={<Fragment>Page 1</Fragment>} />
         <hr />
         <TituloTextos sectionTitle="Títulos e textos" />

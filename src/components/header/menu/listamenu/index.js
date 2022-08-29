@@ -4,7 +4,7 @@ import "./index.scss";
 // React Elements/Hooks
 import { useEffect, useState } from "react";
 import { withScorm } from "react-scorm-provider";
-import { Link } from "react-router-dom";
+import LinkTravado from "../linktravado";
 
 function ListaMenu(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
@@ -30,6 +30,12 @@ function ListaMenu(props) {
       }
       setLoad(true)
     } else if ( props.listItens != '') {
+      // let sessionVal = window.sessionStorage.getItem('menu')
+      if (window.sessionStorage.getItem('menu')) {
+        setNewSuspendData(window.sessionStorage.getItem('menu'));
+      } else {
+        setNewSuspendData(props.listItens.map(() => { return 0; }));  
+      }
       setNewSuspendData(props.listItens.map(() => { return 0; }));
       setLoad(true)
     }
@@ -70,16 +76,45 @@ function ListaMenu(props) {
     if (load && newSuspendData !== '') { 
       setListItens(props.listItens.map((list, id) => {
         if(isScorm) {
-          if (props.lastVisited[id] === 1) {
-            currentClass = '';
-            newSuspendData[id] = 1;
-            if(id === props.menuAtivo) { currentClass = 'active'; }
+          if(props.tipoMenu === "onepage") {
+            if (props.lastVisited[id] === 1) {
+              currentClass = '';
+              newSuspendData[id] = 1;
+              if(id === props.menuAtivo) { currentClass = 'active'; }
+            } else {
+              currentClass = 'travado';
+            }
           } else {
-            currentClass = 'travado';
+            if(newSuspendData[id] === 1) { 
+              currentClass = '';
+              if(id === props.itemVisited) { currentClass = 'active'; }
+            } else if(id === props.itemVisited) { 
+              newSuspendData[id] = 1;
+              currentClass = 'active';
+            } else {
+              currentClass = 'travado';
+            }
           }
         } else {
-          currentClass = '';
-          if(id === props.menuAtivo) { currentClass = 'active'; }
+          if(props.tipoMenu === "onepage") {
+            if (props.lastVisited[id] === 1) {
+              currentClass = '';
+              newSuspendData[id] = 1;
+              if(id === props.menuAtivo) { currentClass = 'active'; }
+            } else {
+              currentClass = 'travado';
+            }
+          } else {
+            if(newSuspendData[id] === 1) { 
+              currentClass = '';
+              if(id === props.itemVisited) { currentClass = 'active'; }
+            } else if(id === props.itemVisited) { 
+              newSuspendData[id] = 1;
+              currentClass = 'active';
+            } else {
+              currentClass = 'travado';
+            }
+          }
         }
 
         if(props.tipoMenu === "onepage") {
@@ -98,11 +133,13 @@ function ListaMenu(props) {
           return (
             <li
               key={id}
-              className={`${list.className ? list.className : "routeItem"} ${
-                list.route == props.menuAtivo ? "active" : ""
-              }`}
+              className={currentClass} 
               >
-              <Link to={`/${list.route}`}>{list.content}</Link>
+              <LinkTravado
+                content={list.content}
+                link={list.route}
+                trava={currentClass}
+              />
             </li>
           );
         }
@@ -110,13 +147,24 @@ function ListaMenu(props) {
 
       if(isScorm) {
         props.sco.setSuspendData("menu", newSuspendData);
-
+        if(props.tipoMenu === "onepage") {
+          if (props.bottomReached && !endScroll) {
+            let newArr = [...newSuspendData];
+            newArr.forEach(obj => { obj = 1; })
+            props.sco.setSuspendData("menu", newArr);
+            props.sco.setStatus("completed");
+            setEndScroll(true);
+          }
+        } else {
+          let newCounter = Number(0);
+          newSuspendData.forEach(obj => { if (obj === 1) newCounter++; })
+          if (newCounter === newSuspendData.length) props.sco.setStatus("completed");
+        }
+      } else {
         if (props.bottomReached && !endScroll) {
-          let newArr = [...newSuspendData];
-          newArr.forEach(obj => { obj = 1; })
-          props.sco.setSuspendData("menu", newArr);
-          props.sco.setStatus("completed");
-          setEndScroll(true);
+          console.log('FIM')
+          // window.sessionStorage.setItem('menu', newSuspendData);
+          // setEndScroll(true);
         }
       }
     }

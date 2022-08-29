@@ -17,6 +17,7 @@ function Menu(props) {
   const [load, setLoad] = useState(false);
   let menuList = [];
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
+  const [currentAtivo, setCurrentAtivo] = useState(0);
   // const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
   const { endPosition, setEndPosition } = useContext(GlobalState);
@@ -28,19 +29,19 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {
-    if(props.mode === "onepage"){
-      scrollMenu();
-      window.addEventListener("scroll", scrollMenu);
+    scrollMenu();
+    window.addEventListener("scroll", scrollMenu);
 
-      return () => {
-        window.removeEventListener("scroll", scrollMenu);
-      };
-    }
+    return () => {
+      window.removeEventListener("scroll", scrollMenu);
+    };
   }, [menuScrolled, endPosition, itemsViewed]);
 
   function scrollMenu() {
-    itemsViewed[menuScrolled] = 1;
-    setCurrentMenuAtual(menuScrolled);
+    if(props.mode === "onepage"){
+      itemsViewed[menuScrolled] = 1;
+      setCurrentMenuAtual(menuScrolled);
+    }
   }
 
   useEffect(() => {
@@ -55,7 +56,10 @@ function Menu(props) {
       setMenuListPages(menuList.map((pageItem, id) => { 
         return { route: pageItem.route, content: pageItem.titulo, index: id }
       }))
-      setCurrentMenuAtual(props.pagesData.curso.conteudo.telas[props.pageAtual - 1].route);
+      
+      let routePage = props.pagesData.curso.conteudo.telas[props.pageAtual - 1].route;
+      setCurrentAtivo(routePage);
+      setCurrentMenuAtual(props.pagesData.curso.conteudo.telas.map(function(e) { return e.route; }).indexOf(routePage));
     }
 
     setLoad(true)
@@ -96,8 +100,10 @@ function Menu(props) {
         tagElement="ul"
         tipoMenu="multipage"
         className="ulMenu"
+        bottomReached={endPosition}
         listItens={menuListPages}
-        menuAtivo={currentMenuAtual}
+        menuAtivo={currentAtivo}
+        itemVisited={currentMenuAtual}
       />
     }
 

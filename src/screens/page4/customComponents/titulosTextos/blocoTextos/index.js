@@ -21,13 +21,25 @@ function BlocoTextos(props) {
         </Fragment>
       ),
     },
+    {
+      tagElement: "p",
+      className: "",
+      content: (
+        <Fragment>
+          from the Sun and the
+          <em>second-smallest planet in the Solar System after</em>
+          Mercury. In English, Mars carries a name of the Roman god of war and
+          is often referred to
+        </Fragment>
+      ),
+    },
   ];
   return (
     <Fragment>
       <Title
         typeH="4"
         className=""
-        content={<Fragment>Page 2 / Strong / Itálico</Fragment>}
+        content={<Fragment>Parágrafo / Strong / Itálico</Fragment>}
       />
       <hr />
 
