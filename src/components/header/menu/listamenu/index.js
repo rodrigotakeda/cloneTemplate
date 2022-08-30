@@ -162,19 +162,30 @@ function ListaMenu(props) {
         }
       } else {
         if (props.bottomReached && !endScroll) {
-          console.log('FIM')
-          // window.sessionStorage.setItem('menu', newSuspendData);
-          // setEndScroll(true);
+          let newList_Items = [...listItens]
+          let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
+
+          newItem_fromList = <li
+                key={props.itemVisited + 1}
+                className={''} 
+                >
+                <LinkTravado
+                content={props.listItens[props.itemVisited + 1].content}
+                link={props.listItens[props.itemVisited + 1].route}
+                trava={''}
+              />
+            </li>;
+
+          newList_Items[props.itemVisited + 1] = newItem_fromList;
+
+          setListItens(newList_Items);
         }
       }
     }
   },[load, props, endScroll, newSuspendData]);
 
-
-  // console.log(newState);
-
+  console.log(listItens)
   // let dadosGravados = props.sco.getSuspendData("menu");
-  
   // props.sco.setSuspendData("menu", newSuspendData);
 
   return (
