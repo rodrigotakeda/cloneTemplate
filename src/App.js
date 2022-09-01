@@ -1,5 +1,6 @@
 import React from "react";
 import { Fragment, useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,12 +9,38 @@ import PagesService from "./services/pages";
 import ScreenRoutes from "./routes";
 import GlobalState from "./contexts/globalState"; //state global
 import { ParallaxProvider } from "react-scroll-parallax";
-import ScormProvider from 'react-scorm-provider';
+import ScormProvider, { withScorm } from "react-scorm-provider";
 
-function App() {
+function App(props) {
   const [pagesData, setPagesData] = useState(false);
   const [menuScrolled, setMenuScrolled] = useState(0);
   const [endPosition, setEndPosition] = useState(false);
+
+  const isScorm = props.sco.apiConnected;
+  const [load, setLoad] = useState(false);
+  const [newSuspendData, setNewSuspendData] = useState([]);
+  const [startPage, setStartPage] = useState(0);
+  const [lastPageView, setLastPageView] = useState(0);
+
+  useEffect(() => {
+    if (props.sco && isScorm && !load) {
+      if (props.sco.suspendData.menu) { setNewSuspendData(props.sco.suspendData.menu); }
+      setLoad(true)
+    } else if (!load) {
+      if (window.sessionStorage.getItem('menu')) { setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu'))); }
+      setLoad(true)
+    }
+
+    if (load) {
+      if (newSuspendData.length !== 0) {
+        let newCounter = Number(0);
+        newSuspendData.forEach(obj => { if (obj === 1) newCounter++; })
+        setStartPage(newCounter)
+      }
+
+      loadData();
+    } 
+  }, [isScorm, load, startPage]);
   
   //checagem se o navegador suporta o userAgentData
   let platform =
@@ -22,10 +49,6 @@ function App() {
   //checagem se é um dispostivo IOS
   let iOS = /iPad|iPhone|iPod/.test(platform);
   // macOS|MacIntel
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   useEffect(() => {
     if (iOS) {
@@ -62,9 +85,9 @@ function App() {
     
     return (
       <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
-        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition }}>
+        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition, lastPageView, setLastPageView }}>
           <ParallaxProvider>
-            <ScreenRoutes pagesData={pagesData} />
+            <ScreenRoutes pagesData={pagesData} paginaInicial={startPage} />
           </ParallaxProvider>
         </GlobalState.Provider>
       </ScormProvider>
@@ -72,4 +95,4 @@ function App() {
   }
 }
 
-export default App;
+export default withScorm()(App);

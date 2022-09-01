@@ -9,8 +9,11 @@ import Page4 from "./screens/page4";
 import GlobalState from "./contexts/globalState";
 
 function ScreenRoutes(props) {
-  const pagesArray = [Page1, Page2, Page3, Page4]; // adicione as chamadas de pagina desse array
+  const pagesArray = [Page2, Page1, Page3, Page4]; // adicione as chamadas de pagina desse array
   const { pagesData, setPagesData } = useContext(GlobalState);
+  const { lastPageView, setLastPageView } = useContext(GlobalState);
+  
+  console.log(lastPageView);
 
   const allPages = pagesArray.map((Page, id) => {
     return (
@@ -23,6 +26,16 @@ function ScreenRoutes(props) {
     );
   });
 
+  // if (props.paginaInicial !== 0) {
+  //   let NameElement = pagesArray[props.paginaInicial];
+  //   pagesAtual = (<Route
+  //         exact
+  //         path={`/${pagesData.curso.conteudo.telas[props.paginaInicial].route}`}
+  //         element={<NameElement />}
+  //       />
+  //     )
+  // }
+
   return (
     <HashRouter>
       <Routes>
@@ -30,7 +43,7 @@ function ScreenRoutes(props) {
           exact
           path="/"
           element={
-            <Navigate to={`${pagesData.curso.conteudo.telas[0].route}`} />
+            <Navigate to={`${pagesData.curso.conteudo.telas[props.paginaInicial].route}`} />
           }
         />
         {allPages}

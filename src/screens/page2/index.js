@@ -9,6 +9,7 @@ import Footer from "../../components/footer";
 import TituloTextos from "./customComponents/titulosTextos";
 import Title from "../../components/texts/title";
 import ProgressPage from "../../components/progressPage";
+import BotoesNavegacao from "./customComponents/botoesNavegacao";
 
 function Page2() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
@@ -29,7 +30,7 @@ function Page2() {
   return (
     <Fragment>
       <ProgressPage className="textBar d-none" />
-      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={2} className="" />
+      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={1} className="" />
       <Wrapper>
         <TituloTextos sectionTitle="Page 2" />
         <Title typeH="1" className="" content={<Fragment>Page 2</Fragment>} />
@@ -41,6 +42,7 @@ function Page2() {
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
+        <BotoesNavegacao />
       </Wrapper>
 
       <Footer fixed className="" />

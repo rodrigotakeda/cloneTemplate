@@ -11,12 +11,12 @@
 		"conteudo": {
 			"telas":[
 				{					
-					"route": "page1",
-					"titulo": "Página 01"
-				},
-				{					
 					"route": "page2",
 					"titulo": "Página 02"
+				},
+				{					
+					"route": "page1",
+					"titulo": "Página 01"
 				},
 				{					
 					"route": "page3",

@@ -1,0 +1,102 @@
+@import "src/App.scss";
+
+@each $tema, $cor in $cores {
+  $cor-texto: map-get($cor, cor-texto);
+  $cor-pagina: map-get($cor, cor-pagina);
+
+  $cor1: map-get($cor, color1);
+  $cor2: map-get($cor, color2);
+  $cor3: map-get($cor, color3);
+  $cor4: map-get($cor, color4);
+  $cor5: map-get($cor, color5);
+
+  $svg1: str_slice(#{$cor1}, 2, 7);
+  $svg2: str_slice(#{$cor2}, 2, 7);
+  $svg3: str_slice(#{$cor3}, 2, 7);
+  $svg4: str_slice(#{$cor4}, 2, 7);
+
+  body,
+  body.#{$tema} {
+    .btn-padrao {
+      &.nextScreen {
+        position: initial;
+        background-color: transparent;
+        padding: 10px 15px 47px;
+        margin: 0;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+
+          @include transform(translateX(-50%));
+          height: 100%;
+          width: 100vw;
+          pointer-events: none;
+
+          z-index: -2;
+
+          background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='uuid-0d112534-3b39-4aaf-b0ab-9847a4d4fbf4' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 1920 235.38'%3E%3Cdefs%3E%3ClinearGradient id='uuid-52f561b8-ac0e-4f3a-bc3a-3c4f64088d34' x1='114.79' y1='675.71' x2='115.65' y2='675.71' gradientTransform='translate(-197921.3 131556.97) scale(1726.19 -194.53)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2392389b'/%3E%3Cstop offset='1' stop-color='%23ffcec7'/%3E%3C/linearGradient%3E%3ClinearGradient id='uuid-f803583b-96c8-4f3d-a73e-96399e20678f' x1='115.32' y1='675.43' x2='115.32' y2='676.49' gradientTransform='translate(-254866.89 160386.63) scale(2218.37 -237.11)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%233f319f'/%3E%3Cstop offset='0' stop-color='%2340319e'/%3E%3Cstop offset='.09' stop-color='%235e339d'/%3E%3Cstop offset='.18' stop-color='%2375359c'/%3E%3Cstop offset='.28' stop-color='%2385369b'/%3E%3Cstop offset='.39' stop-color='%238e379b'/%3E%3Cstop offset='.53' stop-color='%2392389b'/%3E%3Cstop offset='.82' stop-color='%23ffcec7'/%3E%3C/linearGradient%3E%3CclipPath id='uuid-7420848a-53d7-4b0f-9249-860337326fcf'%3E%3Crect x='-120' y='0' width='2080' height='235.38' fill='none'/%3E%3C/clipPath%3E%3C/defs%3E%3Cpath id='uuid-4b0ff720-37c8-4a3b-8400-80edcdbbfc4b' data-name='Caminho 34617' d='M1714.02,74.35v121.53H221.1V66.36c102.87-.98,221.84-36.14,324.69-38.53,151.78-3.53,286.56,43.73,437.94,32.35,145.08-10.91,296.53-39.86,439.75-15.13,71.94,12.43,224.92,31.55,290.55,29.3Z' fill='url(%23uuid-52f561b8-ac0e-4f3a-bc3a-3c4f64088d34)'/%3E%3Cpath id='uuid-f1781144-29bd-47d7-8c79-a2c824693588' data-name='Caminho 34618' d='M-.59,59.83c102.79,5.9,207.45-18.1,310.32-13.27,88.13,4.14,173.92,29.35,262.1,32.74,161.68,6.21,286.13-58.83,447.49-47.7,88.69,6.12,184.06,25.19,260.38,33.34,189.69,20.26,456.36-49.47,641.3-5.91V235.38H-.59V59.83Z' fill='url(%23uuid-f803583b-96c8-4f3d-a73e-96399e20678f)'/%3E%3Cg id='uuid-ebe5daa7-4360-4b86-851a-fc7547e30d87' data-name='Grupo 5183' transform='translate(668.243 141.675)'%3E%3Cg id='uuid-f1b417b5-f5c9-4930-8a14-dc71d6029664' data-name='Grupo 5181' transform='translate(871.163)'%3E%3Cpath id='uuid-5bc046ed-887f-40db-83e1-11f7ab58e246' data-name='Caminho 34619' d='M1359.05,140.26l-19.89-16.62c-2.01-1.68-5-1.42-6.68,.59-.72,.85-1.11,1.93-1.11,3.05v33.24c0,2.62,2.12,4.74,4.74,4.74,1.11,0,2.19-.39,3.04-1.11l19.89-16.62c2.01-1.68,2.28-4.67,.6-6.68-.18-.22-.38-.42-.6-.6Z' fill='none' stroke='%23fff' stroke-miterlimit='10' stroke-width='1.18'/%3E%3Cpath id='uuid-fde24781-2623-4d8c-bfe5-723aa31a849f' data-name='Caminho 34620' d='M1383.08,141.91l-10.9-9.11c-1.1-.92-2.73-.78-3.66,.32-.39,.47-.61,1.06-.61,1.67v18.21c0,1.43,1.16,2.6,2.59,2.6,.61,0,1.2-.21,1.67-.61l10.9-9.11c1.1-.92,1.24-2.56,.32-3.65-.1-.12-.21-.23-.32-.32Z' fill='none' stroke='%23fff' stroke-miterlimit='10' stroke-width='1.5'/%3E%3C/g%3E%3Cg id='uuid-173e1293-04c1-47e3-a52b-4f14a5dae084' data-name='Grupo 5182'%3E%3Cpath id='uuid-57a1752f-3cf2-4350-8659-517392d6e3df' data-name='Caminho 34621' d='M605.61,140.26l-19.89-16.62c-2.01-1.68-5-1.41-6.68,.59-.71,.85-1.11,1.93-1.11,3.04v33.24c0,2.62,2.12,4.74,4.74,4.74,1.11,0,2.19-.39,3.04-1.1l19.89-16.62c2.01-1.68,2.28-4.67,.6-6.68-.18-.22-.38-.42-.6-.6Z' fill='none' stroke='%23fff' stroke-miterlimit='10' stroke-width='1.18'/%3E%3Cpath id='uuid-fd44f2cb-ccd6-4fc2-a3db-790c54c05c91' data-name='Caminho 34622' d='M629.64,141.91l-10.9-9.11c-1.1-.92-2.73-.78-3.66,.32-.39,.47-.61,1.06-.61,1.67v18.21c0,1.43,1.16,2.6,2.59,2.6,.61,0,1.2-.21,1.67-.61l10.9-9.11c1.1-.92,1.24-2.56,.32-3.66-.1-.11-.2-.22-.32-.32Z' fill='none' stroke='%23fff' stroke-miterlimit='10' stroke-width='1.5'/%3E%3C/g%3E%3C/g%3E%3Cg id='uuid-b192faba-64f4-4b63-96d0-9c465d02be62' data-name='Grupo 5185' transform='translate(0 0)'%3E%3Cg clip-path='url(%23uuid-7420848a-53d7-4b0f-9249-860337326fcf)'%3E%3Cg id='uuid-a85fc86f-750b-4c6c-acab-f08de659c6b2' data-name='Grupo 5184'%3E%3Cpath id='uuid-dfdd5f1b-2831-412e-916b-c187eacfb4cb' data-name='Caminho 34623' d='M-76.27,120.88c81.67,39.82,180.94-.17,273.78-11.4,92.84-11.23,189.12-26.62,278.78-2.93,20.52,5.42,41.61,13.76,52.8,29.59,20.07,28.38-3.05,65.86-47.68,65.05-38.46-.7-63.25-43.47-40.04-70.01,9.39-10.74,23.74-17.47,38.48-21.8,50.78-14.91,157.13-8.82,206.3,9.68,49.18,18.5,94.4,44.38,144.29,61.38,119.61,40.75,203.08,27.12,325.88-8.34,121.5-35.09,124.5-82.51,363.97-79.64,115.1,1.38,297.11,49.54,412.15,45.6,94.28-3.23,187.17-32.09,262.28-81.5' fill='none' isolation='isolate' opacity='.5' stroke='%23fff' stroke-miterlimit='10' stroke-width='1.5'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+            center
+            bottom
+            repeat-x;
+
+          background-size: contain;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 15%;
+          left: 50%;
+          @include transform(translateX(-50%));
+          height: 100%;
+          width: 100%;
+          max-width: 700px;
+          z-index: -1;
+          pointer-events: none;
+
+          background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='uuid-5d4dda79-cf62-4a9e-bbcb-c32f949a6c0c' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 703 40.1' style='enable-background:new 0 0 703 40.1;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bopacity:0.5;%7D .st1%7Bfill:none;stroke:%23FFFFFF;stroke-miterlimit:10;%7D%0A%3C/style%3E%3Cg%3E%3Cg id='Grupo_5181_00000048469038595255228410000013657957832306166709_' transform='translate(871.163)' class='st0'%3E%3Cpath id='Caminho_34619_00000121280788624975209310000005842637387650515879_' class='st1' d='M-191.3,16.9l-17.3-14.4 c-1.7-1.5-4.3-1.2-5.8,0.5c-0.6,0.7-1,1.7-1,2.6v28.9c0,2.3,1.8,4.1,4.1,4.1c1,0,1.9-0.3,2.6-1l17.3-14.4c1.7-1.5,2-4.1,0.5-5.8 C-191,17.2-191.1,17.1-191.3,16.9z'/%3E%3Cpath id='Caminho_34620_00000063611922731280246060000011833076038185096074_' class='st1' d='M-170.5,18.3l-9.5-7.9 c-1-0.8-2.4-0.7-3.2,0.3c-0.3,0.4-0.5,0.9-0.5,1.5V28c0,1.2,1,2.3,2.3,2.3c0.5,0,1-0.2,1.5-0.5l9.5-7.9c1-0.8,1.1-2.2,0.3-3.2 C-170.3,18.5-170.4,18.4-170.5,18.3z'/%3E%3C/g%3E%3Cg id='Grupo_5182_00000080915871677231574910000018365077131150140058_' class='st0'%3E%3Cpath id='Caminho_34621_00000074430143782104677710000011564068638140082603_' class='st1' d='M25.5,16.9L8.3,2.5 C6.5,1,3.9,1.2,2.5,3c-0.6,0.7-1,1.7-1,2.6v28.9c0,2.3,1.8,4.1,4.1,4.1c1,0,1.9-0.3,2.6-1l17.3-14.4c1.7-1.5,2-4.1,0.5-5.8 C25.9,17.2,25.7,17.1,25.5,16.9z'/%3E%3Cpath id='Caminho_34622_00000036223199678067973350000007405341365338096549_' class='st1' d='M46.4,18.3l-9.5-7.9 c-1-0.8-2.4-0.7-3.2,0.3c-0.3,0.4-0.5,0.9-0.5,1.5V28c0,1.2,1,2.3,2.3,2.3c0.5,0,1-0.2,1.5-0.5l9.5-7.9c1-0.8,1.1-2.2,0.3-3.2 C46.6,18.5,46.5,18.4,46.4,18.3z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A")
+            center
+            no-repeat;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: transparent;
+          border: none;
+          font-size: 1.5rem;
+
+          @include box-shadow(none);
+        }
+
+        @media #{$bp-tablet} {
+          font-size: 1.25rem;
+          padding-bottom: 27px;
+          &::before {
+            max-width: 500px;
+          }
+          &:hover {
+            font-size: 1.3rem;
+          }
+        }
+        @media #{$bp-phone} {
+          font-size: 1rem;
+          padding-bottom: 17px;
+
+          &::after {
+            background-size: cover;
+          }
+          &::before {
+            max-width: 300px;
+          }
+          &:hover {
+            font-size: 1.125rem;
+          }
+        }
+      }
+    }
+  }
+}

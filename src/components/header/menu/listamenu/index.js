@@ -13,6 +13,7 @@ function ListaMenu(props) {
   let currentClass = '';
   // let newData = [];
   const [load, setLoad] = useState(false);
+  const [changeMenu, setChangeMenu] = useState(false);
   const [endScroll, setEndScroll] = useState(false);
   const isScorm = props.sco.apiConnected;
   
@@ -20,6 +21,8 @@ function ListaMenu(props) {
   const [newSuspendData, setNewSuspendData] = useState([]);
 
   useEffect(() => {
+    console.log('Bottom:', props.bottomReached);
+
     if (props.sco && isScorm && props.listItens != '') {
       if (props.sco.suspendData.menu) {
         console.log(props.sco.suspendData.menu)
@@ -30,13 +33,12 @@ function ListaMenu(props) {
       }
       setLoad(true)
     } else if ( props.listItens != '') {
-      // let sessionVal = window.sessionStorage.getItem('menu')
       if (window.sessionStorage.getItem('menu')) {
-        setNewSuspendData(window.sessionStorage.getItem('menu'));
+        setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu')));
       } else {
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
       }
-      setNewSuspendData(props.listItens.map(() => { return 0; }));
+      // setNewSuspendData(props.listItens.map(() => { return 0; }));
       setLoad(true)
     }
   }, [isScorm, props.listItens]);
@@ -74,9 +76,9 @@ function ListaMenu(props) {
   useEffect(() => {
     // newData = [...newSuspendData];
     if (load && newSuspendData !== '') { 
-      setListItens(props.listItens.map((list, id) => {
-        if(isScorm) {
-          if(props.tipoMenu === "onepage") {
+      if(props.tipoMenu === "onepage") {
+        setListItens(props.listItens.map((list, id) => {
+          if(isScorm) {
             if (props.lastVisited[id] === 1) {
               currentClass = '';
               newSuspendData[id] = 1;
@@ -85,18 +87,6 @@ function ListaMenu(props) {
               currentClass = 'travado';
             }
           } else {
-            if(newSuspendData[id] === 1) { 
-              currentClass = '';
-              if(id === props.itemVisited) { currentClass = 'active'; }
-            } else if(id === props.itemVisited) { 
-              newSuspendData[id] = 1;
-              currentClass = 'active';
-            } else {
-              currentClass = 'travado';
-            }
-          }
-        } else {
-          if(props.tipoMenu === "onepage") {
             if (props.lastVisited[id] === 1) {
               currentClass = '';
               newSuspendData[id] = 1;
@@ -104,20 +94,8 @@ function ListaMenu(props) {
             } else {
               currentClass = 'travado';
             }
-          } else {
-            if(newSuspendData[id] === 1) { 
-              currentClass = '';
-              if(id === props.itemVisited) { currentClass = 'active'; }
-            } else if(id === props.itemVisited) { 
-              newSuspendData[id] = 1;
-              currentClass = 'active';
-            } else {
-              currentClass = 'travado';
-            }
           }
-        }
-
-        if(props.tipoMenu === "onepage") {
+          
           return (
             <li 
               key={id}
@@ -129,62 +107,98 @@ function ListaMenu(props) {
                 {list.content}
             </li>
           );
-        } else {
-          return (
-            <li
-              key={id}
-              className={currentClass} 
-              >
-              <LinkTravado
-                content={list.content}
-                link={list.route}
-                trava={currentClass}
-              />
-            </li>
-          );
-        }
-      }));
+        }));
+      } else {
+        if (!changeMenu) {
+          setListItens(props.listItens.map((list, id) => {
+            if(newSuspendData[id] === 1) { 
+              currentClass = '';
+              if(id === props.itemVisited) { currentClass = 'active'; }
+            } else if(id === props.itemVisited) { 
+              currentClass = 'active';
+            } else {
+              currentClass = 'travado';
+            }
 
-      if(isScorm) {
-        props.sco.setSuspendData("menu", newSuspendData);
-        if(props.tipoMenu === "onepage") {
-          if (props.bottomReached && !endScroll) {
+            return (
+              <li
+                key={id}
+                className={currentClass} 
+                >
+                <LinkTravado
+                  content={list.content}
+                  link={list.route}
+                  trava={currentClass}
+                />
+              </li>
+            );
+          }));
+          setChangeMenu(true)
+        }
+      }
+
+      if(props.tipoMenu === "onepage") {
+        if(isScorm) {
+          props.sco.setSuspendData("menu", newSuspendData);
+        } else {
+          window.sessionStorage.setItem('menu', newSuspendData);
+        }
+
+        if (props.bottomReached && !endScroll) {
             let newArr = [...newSuspendData];
             newArr.forEach(obj => { obj = 1; })
             props.sco.setSuspendData("menu", newArr);
-            props.sco.setStatus("completed");
+            
+            if(isScorm) {
+              props.sco.setStatus("completed");
+            } else {
+              window.sessionStorage.setItem('status', 'completed');
+            }
+
             setEndScroll(true);
-          }
-        } else {
-          let newCounter = Number(0);
-          newSuspendData.forEach(obj => { if (obj === 1) newCounter++; })
-          if (newCounter === newSuspendData.length) props.sco.setStatus("completed");
-        }
+        }          
       } else {
         if (props.bottomReached && !endScroll) {
-          let newList_Items = [...listItens]
-          let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
+          let newData_Items = [...newSuspendData]
+          let newData_fromItem = newData_Items[props.itemVisited];
+          newData_fromItem = 1;
+          newData_Items[props.itemVisited] = newData_fromItem;
+    
+          let newCounter = Number(0);
+          newData_Items.forEach(obj => { if (obj === 1) newCounter++; })
 
-          newItem_fromList = <li
-                key={props.itemVisited + 1}
-                className={''} 
-                >
-                <LinkTravado
-                content={props.listItens[props.itemVisited + 1].content}
-                link={props.listItens[props.itemVisited + 1].route}
-                trava={''}
-              />
-            </li>;
+          if(isScorm) {
+            props.sco.setSuspendData("menu", newData_Items);
+            if (newCounter === newData_Items.length) props.sco.setStatus("completed");
+          } else {
+            window.sessionStorage.setItem('menu', JSON.stringify(newData_Items));
+            if (newCounter === newData_Items.length) window.sessionStorage.setItem('status', 'completed');  
+          }
 
-          newList_Items[props.itemVisited + 1] = newItem_fromList;
+          // HABILITADA A PROXIMA...
+          if (newCounter !== newData_Items.length) {
+            let newList_Items = [...listItens]
+            let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
 
-          setListItens(newList_Items);
+            newItem_fromList = <li
+                  key={props.itemVisited + 1}
+                  className={''} 
+                  >
+                  <LinkTravado
+                  content={props.listItens[props.itemVisited + 1].content}
+                  link={props.listItens[props.itemVisited + 1].route}
+                  trava={''}
+                />
+              </li>;
+
+            newList_Items[props.itemVisited + 1] = newItem_fromList;
+            setListItens(newList_Items);
+          }
         }
       }
     }
-  },[load, props, endScroll, newSuspendData]);
+  },[load, changeMenu, props, endScroll, newSuspendData]);
 
-  console.log(listItens)
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);
 
