@@ -5,6 +5,7 @@ import "./index.scss";
 import GlobalState from "../../contexts/globalState";
 import { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { withScorm } from "react-scorm-provider";
 
 // Components
 import { Container, Row, Col, Form } from "react-bootstrap";
@@ -19,6 +20,7 @@ function Header(props) {
 
   const headerRef = useRef(null);
   const { pagesData } = useContext(GlobalState);
+  const isScorm = props.sco.apiConnected;
 
   let prevScrollpos = window.pageYOffset;
 
@@ -53,6 +55,14 @@ function Header(props) {
 
   function handleThemeChange(e) {
     props.setTemaCor(e.target.value);
+  }
+
+  console.log(props.pageAtual - 1)
+  if(isScorm) {
+    props.sco.setSuspendData("paginaInicial", (props.pageAtual - 1));
+    
+  } else {
+    window.sessionStorage.setItem('paginaInicial', (props.pageAtual - 1));
   }
 
   return (
@@ -108,4 +118,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default withScorm()(Header);

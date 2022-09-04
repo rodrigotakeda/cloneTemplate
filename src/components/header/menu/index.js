@@ -21,7 +21,6 @@ function Menu(props) {
   // const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
   const { endPosition, setEndPosition } = useContext(GlobalState);
-  const { lastPageView, setLastPageView } = useContext(GlobalState);
 
   const [itemsViewed, setItemsViewed] = useState([]);
 
@@ -30,8 +29,6 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {
-    setLastPageView(props.pageAtual - 1);
-
     scrollMenu();
     window.addEventListener("scroll", scrollMenu);
 

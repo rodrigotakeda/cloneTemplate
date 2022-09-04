@@ -21,7 +21,7 @@ function ListaMenu(props) {
   const [newSuspendData, setNewSuspendData] = useState([]);
 
   useEffect(() => {
-    console.log('Bottom:', props.bottomReached);
+    // console.log('Bottom:', props.bottomReached);
 
     if (props.sco && isScorm && props.listItens != '') {
       if (props.sco.suspendData.menu) {

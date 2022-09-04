@@ -16,32 +16,33 @@ function App(props) {
   const [menuScrolled, setMenuScrolled] = useState(0);
   const [endPosition, setEndPosition] = useState(false);
 
+  let newCounter = Number(0);
+
   const isScorm = props.sco.apiConnected;
   const [load, setLoad] = useState(false);
   const [newSuspendData, setNewSuspendData] = useState([]);
   const [startPage, setStartPage] = useState(0);
-  const [lastPageView, setLastPageView] = useState(0);
 
   useEffect(() => {
     if (props.sco && isScorm && !load) {
       if (props.sco.suspendData.menu) { setNewSuspendData(props.sco.suspendData.menu); }
+      if (props.sco.suspendData.paginaInicial) { setStartPage(props.sco.suspendData.paginaInicial); }
       setLoad(true)
     } else if (!load) {
       if (window.sessionStorage.getItem('menu')) { setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu'))); }
+      if (window.sessionStorage.getItem('paginaInicial')) { setStartPage(window.sessionStorage.getItem('paginaInicial')); }
       setLoad(true)
     }
 
     if (load) {
-      if (newSuspendData.length !== 0) {
-        let newCounter = Number(0);
-        newSuspendData.forEach(obj => { if (obj === 1) newCounter++; })
-        setStartPage(newCounter)
-      }
-
       loadData();
-    } 
+    }
   }, [isScorm, load, startPage]);
   
+  useEffect(() => {
+    
+  }, []);
+
   //checagem se o navegador suporta o userAgentData
   let platform =
     navigator?.userAgentData?.platform || navigator?.platform || "unknown";
@@ -82,10 +83,19 @@ function App(props) {
     );
   } else {
     document.title = pagesData.curso.titulo;
+
+    if (newSuspendData.length !== 0) {
+      newCounter = Number(0);
+      newSuspendData.forEach(obj => { if (obj === 1) newCounter++; })
+      // setStartPage(newCounter)
+    }
+
+    console.log(newSuspendData)
+    console.log(startPage, newCounter)
     
     return (
       <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
-        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition, lastPageView, setLastPageView }}>
+        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition, startPage, setStartPage }}>
           <ParallaxProvider>
             <ScreenRoutes pagesData={pagesData} paginaInicial={startPage} />
           </ParallaxProvider>
