@@ -2,27 +2,35 @@
 import "./index.scss";
 
 // React Elements/Hooks
-import { useEffect, useState } from "react";
+import GlobalState from "../../../../contexts/globalState";
+import { Fragment, useEffect, useState, useContext } from "react";
 import { withScorm } from "react-scorm-provider";
 import LinkTravado from "../linktravado";
+
+import SaveScorm from "../../../scorm/saveScorm";
 
 function ListaMenu(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
   let TagElement = props.tagElement;
   //const [currentClass, setCurrentClass] = useState('');
   let currentClass = '';
+  const [dataChanged, setDataChanged] = useState(false);
+  const [scormSaved, setScormSaved] = useState(false);
   // let newData = [];
   const [load, setLoad] = useState(false);
   const [changeMenu, setChangeMenu] = useState(false);
   const [endScroll, setEndScroll] = useState(false);
   const isScorm = props.sco.apiConnected;
-  
+
   const [listItens, setListItens] = useState([]);
   const [newSuspendData, setNewSuspendData] = useState([]);
+  const [newSuspendClone, setNewSuspendClone] = useState([]);
 
+  const { startPage } = useContext(GlobalState);
+  const { menuPages, setMenuPages } = useContext(GlobalState);
+  
   useEffect(() => {
     // console.log('Bottom:', props.bottomReached);
-
     if (props.sco && isScorm && props.listItens != '') {
       if (props.sco.suspendData.menu) {
         console.log(props.sco.suspendData.menu)
@@ -33,15 +41,24 @@ function ListaMenu(props) {
       }
       setLoad(true)
     } else if ( props.listItens != '') {
-      if (window.sessionStorage.getItem('menu')) {
-        setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu')));
+      const strData = window.sessionStorage.getItem('cmi.suspend_data');
+      let splitData = JSON.parse(strData);
+      
+      if (splitData.menu && splitData.menu != '') {
+        setNewSuspendData(splitData.menu);
       } else {
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
       }
+
+      // if (window.sessionStorage.getItem('menu')) {
+      //   setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu')));
+      // } else {
+      //   setNewSuspendData(props.listItens.map(() => { return 0; }));  
+      // }
       // setNewSuspendData(props.listItens.map(() => { return 0; }));
       setLoad(true)
     }
-  }, [isScorm, props.listItens]);
+  }, [isScorm, menuPages, props.listItens]);
 
 //   useEffect(() => {
 //     const listItens = props.listItens.map((list, id) => {
@@ -159,7 +176,7 @@ function ListaMenu(props) {
         }          
       } else {
         if (props.bottomReached && !endScroll) {
-          let newData_Items = [...newSuspendData]
+          let newData_Items = [...newSuspendData];
           let newData_fromItem = newData_Items[props.itemVisited];
           newData_fromItem = 1;
           newData_Items[props.itemVisited] = newData_fromItem;
@@ -167,13 +184,13 @@ function ListaMenu(props) {
           let newCounter = Number(0);
           newData_Items.forEach(obj => { if (obj === 1) newCounter++; })
 
-          if(isScorm) {
-            props.sco.setSuspendData("menu", newData_Items);
-            if (newCounter === newData_Items.length) props.sco.setStatus("completed");
-          } else {
-            window.sessionStorage.setItem('menu', JSON.stringify(newData_Items));
-            if (newCounter === newData_Items.length) window.sessionStorage.setItem('status', 'completed');  
-          }
+          // if(isScorm) {
+          //   props.sco.setSuspendData("menu", newData_Items);
+          //   if (newCounter === newData_Items.length) props.sco.setStatus("completed");
+          // } else {
+          //   window.sessionStorage.setItem('menu', JSON.stringify(newData_Items));
+          //   if (newCounter === newData_Items.length) window.sessionStorage.setItem('status', 'completed');  
+          // }
 
           // HABILITADA A PROXIMA...
           if (newCounter !== newData_Items.length) {
@@ -193,18 +210,37 @@ function ListaMenu(props) {
 
             newList_Items[props.itemVisited + 1] = newItem_fromList;
             setListItens(newList_Items);
+
+            if (!dataChanged) {
+              setNewSuspendClone(newData_Items);
+              setMenuPages(newData_Items)
+              setDataChanged(true);
+            } else {
+              setScormSaved(true);
+            }
           }
         }
       }
     }
-  },[load, changeMenu, props, endScroll, newSuspendData]);
+  },[load, changeMenu, props, endScroll, newSuspendData, newSuspendClone]);
 
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);
-
-  return (
-    <TagElement className={`list ${props.className}`}>{listItens}</TagElement>
-  );
+  if (props.tipoMenu === "onepage") {
+    return (
+      <Fragment>
+        <SaveScorm menu={newSuspendData} />
+        <TagElement className={`list ${props.className}`}>{listItens}</TagElement>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        {dataChanged && !scormSaved &&  <SaveScorm />} 
+        <TagElement className={`list ${props.className}`}>{listItens}</TagElement>
+      </Fragment>
+    );
+  }
 }
 
 export default withScorm()(ListaMenu);

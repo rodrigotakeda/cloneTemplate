@@ -3,14 +3,14 @@ import "./index.scss";
 
 // React Elements/Hooks
 import GlobalState from "../../contexts/globalState";
-import { useState, useRef, useEffect, useContext } from "react";
+import { Fragment, useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { withScorm } from "react-scorm-provider";
 
 // Components
 import { Container, Row, Col, Form } from "react-bootstrap";
 import BotaoMenu from "./menu/botaomenu";
 import Menu from "./menu";
+import SaveScorm from "../scorm/saveScorm";
 
 function Header(props) {
   const headerInitialPos = { top: "0" };
@@ -20,7 +20,7 @@ function Header(props) {
 
   const headerRef = useRef(null);
   const { pagesData } = useContext(GlobalState);
-  const isScorm = props.sco.apiConnected;
+  const { startPage, setStartPage } = useContext(GlobalState);
 
   let prevScrollpos = window.pageYOffset;
 
@@ -32,6 +32,10 @@ function Header(props) {
       };
     }
   }, []);
+
+  useEffect(() => {
+    if ((props.pageAtual - 1) > startPage) setStartPage(props.pageAtual - 1)
+  }, [startPage]);
 
   useEffect(() => {
     if (props.hideOnScroll) {
@@ -57,65 +61,61 @@ function Header(props) {
     props.setTemaCor(e.target.value);
   }
 
-  console.log(props.pageAtual - 1)
-  if(isScorm) {
-    props.sco.setSuspendData("paginaInicial", (props.pageAtual - 1));
-    
-  } else {
-    window.sessionStorage.setItem('paginaInicial', (props.pageAtual - 1));
-  }
-
   return (
-    <header
-      style={headerStyle}
-      ref={headerRef}
-      className={`headerComponent ${props.className}`}
-    >
-      <Container>
-        <Row className="align-items-center justify-content-between">
-          <Col xs="2">
-            <Link to="/">
-              <img
-                src={pagesData.curso.logo}
-                className="img-responsive"
-                alt="Logotipo da Empresa"
+    <Fragment>
+      <SaveScorm />
+
+      <header
+        style={headerStyle}
+        ref={headerRef}
+        className={`headerComponent ${props.className}`}
+      >
+        <Container>
+          <Row className="align-items-center justify-content-between">
+            <Col xs="2">
+              <Link to="/">
+                <img
+                  src={pagesData.curso.logo}
+                  className="img-responsive"
+                  alt="Logotipo da Empresa"
+                />
+              </Link>
+            </Col>
+
+            <Col xs="2">
+              <Form.Select
+                onChange={(e) => handleThemeChange(e)}
+                aria-label="Default select example"
+                id="changeTemplate"
+              >
+                <option value="custom">Custom</option>
+                <option value="azulVerde">Padrão Azul / Verde</option>
+                <option value="azulAmarelo">Padrão Azul / Amarelo</option>
+                <option value="laranja">Padrão Laranja</option>
+                <option value="verdeAreia">Padrão Verde / Areia</option>
+              </Form.Select>
+            </Col>
+
+            <Col xs="2" className="d-flex justify-content-end">
+              <BotaoMenu
+                setMenuIsOpen={setMenuIsOpen}
+                menuIsOpen={menuIsOpen}
+                className=""
               />
-            </Link>
-          </Col>
-
-          <Col xs="2">
-            <Form.Select
-              onChange={(e) => handleThemeChange(e)}
-              aria-label="Default select example"
-              id="changeTemplate"
-            >
-              <option value="custom">Custom</option>
-              <option value="azulVerde">Padrão Azul / Verde</option>
-              <option value="azulAmarelo">Padrão Azul / Amarelo</option>
-              <option value="laranja">Padrão Laranja</option>
-              <option value="verdeAreia">Padrão Verde / Areia</option>
-            </Form.Select>
-          </Col>
-
-          <Col xs="2" className="d-flex justify-content-end">
-            <BotaoMenu
-              setMenuIsOpen={setMenuIsOpen}
-              menuIsOpen={menuIsOpen}
-              className=""
-            />
-          </Col>
-        </Row>
-      </Container>
-      <Menu
-        mode={pagesData.curso.mode}
-        setMenuIsOpen={setMenuIsOpen}
-        menuIsOpen={menuIsOpen}
-        pagesData={pagesData}
-        pageAtual={props.pageAtual}
-        className=""
-      />
-    </header>
+            </Col>
+          </Row>
+        </Container>
+        <Menu
+          mode={pagesData.curso.mode}
+          setMenuIsOpen={setMenuIsOpen}
+          menuIsOpen={menuIsOpen}
+          pagesData={pagesData}
+          pageAtual={props.pageAtual}
+          className=""
+        />
+      </header>
+    </Fragment>
   );
 }
 
-export default withScorm()(Header);
+export default Header;
