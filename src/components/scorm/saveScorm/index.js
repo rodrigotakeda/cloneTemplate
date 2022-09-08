@@ -8,8 +8,8 @@ const Props = (props) => {
 	const [strScorm, setStrScorm] = useState({});
 	const [suspendData, setSuspendData] = useState({});
 
-	const { menuPages, setMenuPages } = useContext(GlobalState);
-	const { startPage, setStartPage } = useContext(GlobalState);
+	const { menuPages } = useContext(GlobalState);
+	const { startPage } = useContext(GlobalState);
 	
 	useEffect(() => {
 		setSuspendData({ "menu": menuPages, "paginaInicial": startPage })

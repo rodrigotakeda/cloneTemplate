@@ -24,9 +24,7 @@ function ListaMenu(props) {
 
   const [listItens, setListItens] = useState([]);
   const [newSuspendData, setNewSuspendData] = useState([]);
-  const [newSuspendClone, setNewSuspendClone] = useState([]);
 
-  const { startPage } = useContext(GlobalState);
   const { menuPages, setMenuPages } = useContext(GlobalState);
   
   useEffect(() => {
@@ -40,12 +38,9 @@ function ListaMenu(props) {
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
       }
       setLoad(true)
-    } else if ( props.listItens != '') {
-      const strData = window.sessionStorage.getItem('cmi.suspend_data');
-      let splitData = JSON.parse(strData);
-      
-      if (splitData.menu && splitData.menu != '') {
-        setNewSuspendData(splitData.menu);
+    } else if ( props.listItens != '') {      
+      if (menuPages != '') { 
+        setNewSuspendData(menuPages);
       } else {
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
       }
@@ -212,7 +207,6 @@ function ListaMenu(props) {
             setListItens(newList_Items);
 
             if (!dataChanged) {
-              setNewSuspendClone(newData_Items);
               setMenuPages(newData_Items)
               setDataChanged(true);
             } else {
@@ -222,7 +216,7 @@ function ListaMenu(props) {
         }
       }
     }
-  },[load, changeMenu, props, endScroll, newSuspendData, newSuspendClone]);
+  },[load, changeMenu, props, endScroll, newSuspendData]);
 
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);
