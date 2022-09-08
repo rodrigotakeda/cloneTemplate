@@ -28,11 +28,21 @@ function ListaMenu(props) {
   const { menuPages, setMenuPages } = useContext(GlobalState);
   
   useEffect(() => {
+    // console.log('API Interno: ', props.sco.apiConnected);
+
     // console.log('Bottom:', props.bottomReached);
     if (props.sco && isScorm && props.listItens != '') {
-      if (props.sco.suspendData.menu) {
-        console.log(props.sco.suspendData.menu)
-        setNewSuspendData(props.sco.suspendData.menu);
+      if (props.sco.suspendData.dataCurso) {
+        // console.log(props.sco.suspendData.dataCurso)
+        // console.log(props.sco.suspendData.dataCurso.menu);
+
+        if (props.sco.suspendData.dataCurso.menu != undefined) {
+          console.log('MenuPages');
+          setNewSuspendData(menuPages);
+        } else {
+          // console.log('MenuProps');
+          setNewSuspendData(props.listItens.map(() => { return 0; }));    
+        }
       } else {
         console.log('ENTROU NO LIST')
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
@@ -45,12 +55,6 @@ function ListaMenu(props) {
         setNewSuspendData(props.listItens.map(() => { return 0; }));  
       }
 
-      // if (window.sessionStorage.getItem('menu')) {
-      //   setNewSuspendData(JSON.parse(window.sessionStorage.getItem('menu')));
-      // } else {
-      //   setNewSuspendData(props.listItens.map(() => { return 0; }));  
-      // }
-      // setNewSuspendData(props.listItens.map(() => { return 0; }));
       setLoad(true)
     }
   }, [isScorm, menuPages, props.listItens]);
@@ -207,9 +211,11 @@ function ListaMenu(props) {
             setListItens(newList_Items);
 
             if (!dataChanged) {
-              setMenuPages(newData_Items)
+              console.log('Menu_Data: ', newData_Items)
+              setMenuPages(newData_Items);
               setDataChanged(true);
             } else {
+              console.log('Menu: ', menuPages)
               setScormSaved(true);
             }
           }
@@ -223,7 +229,7 @@ function ListaMenu(props) {
   if (props.tipoMenu === "onepage") {
     return (
       <Fragment>
-        <SaveScorm menu={newSuspendData} />
+        <SaveScorm />
         <TagElement className={`list ${props.className}`}>{listItens}</TagElement>
       </Fragment>
     );

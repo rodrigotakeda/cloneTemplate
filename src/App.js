@@ -10,8 +10,6 @@ import GlobalState from "./contexts/globalState"; //state global
 import { ParallaxProvider } from "react-scroll-parallax";
 import ScormProvider, { withScorm } from "react-scorm-provider";
 
-import loadScorm_Func from "./components/scorm/loadScorm_Func";
-
 function App(props) {
   const [pagesData, setPagesData] = useState(false);
   const [menuScrolled, setMenuScrolled] = useState(0);
@@ -20,12 +18,7 @@ function App(props) {
   const [startPage, setStartPage] = useState(0);
   const [menuPages, setMenuPages] = useState([]);
 
-  useEffect(() => {
-    let recebeLoad = loadScorm_Func(props.sco);
-  
-    setMenuPages(recebeLoad.data.menu);
-    setStartPage(recebeLoad.data.paginaInicial);
-
+  useEffect(() => {;
     loadData();
   }, []);
 
@@ -70,11 +63,13 @@ function App(props) {
   } else {
     document.title = pagesData.curso.titulo;
 
+    console.log("Scroll")
+    
     return (
       <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
         <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition, startPage, setStartPage, menuPages, setMenuPages }}>
           <ParallaxProvider>
-            <ScreenRoutes pagesData={pagesData} paginaInicial={startPage} />
+            <ScreenRoutes pagesData={pagesData} />
           </ParallaxProvider>
         </GlobalState.Provider>
       </ScormProvider>
