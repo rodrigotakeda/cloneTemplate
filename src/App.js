@@ -62,9 +62,6 @@ function App(props) {
     );
   } else {
     document.title = pagesData.curso.titulo;
-
-    console.log("Scroll");
-
     return (
       <ScormProvider
         version="1.2"
@@ -85,7 +82,7 @@ function App(props) {
           }}
         >
           <ParallaxProvider>
-            <ScreenRoutes pagesData={pagesData} />
+            <ScreenRoutes pagesData={pagesData} activateScorm={false} />
           </ParallaxProvider>
         </GlobalState.Provider>
       </ScormProvider>

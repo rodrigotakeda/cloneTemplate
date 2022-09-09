@@ -38,73 +38,95 @@ function Menu(props) {
   }, [menuScrolled, endPosition, itemsViewed]);
 
   function scrollMenu() {
-    if(props.mode === "onepage"){
+    if (props.mode === "onepage") {
       itemsViewed[menuScrolled] = 1;
       setCurrentMenuAtual(menuScrolled);
     }
   }
 
   useEffect(() => {
-    if(props.mode === "onepage"){
-      menuList = Array.apply(null,document.querySelectorAll('section'));
-      setItemsViewed(menuList.map(() => { return 0; }))
-      setMenuListTop(menuList.map((menuItem, id) => {
-        return { menu: menuItem.offsetTop, content: menuItem.getAttribute('data-secao'), visited: menuItem.getAttribute('data-seen'), index: id }
-      }))
+    if (props.mode === "onepage") {
+      menuList = Array.apply(null, document.querySelectorAll("section"));
+      setItemsViewed(
+        menuList.map(() => {
+          return 0;
+        })
+      );
+      setMenuListTop(
+        menuList.map((menuItem, id) => {
+          return {
+            menu: menuItem.offsetTop,
+            content: menuItem.getAttribute("data-secao"),
+            visited: menuItem.getAttribute("data-seen"),
+            index: id,
+          };
+        })
+      );
     } else {
       menuList = props.pagesData.curso.conteudo.telas;
-      setMenuListPages(menuList.map((pageItem, id) => { 
-        return { route: pageItem.route, content: pageItem.titulo, index: id }
-      }))
-      
-      let routePage = props.pagesData.curso.conteudo.telas[props.pageAtual - 1].route;
+      setMenuListPages(
+        menuList.map((pageItem, id) => {
+          return { route: pageItem.route, content: pageItem.titulo, index: id };
+        })
+      );
+
+      let routePage =
+        props.pagesData.curso.conteudo.telas[props.pageAtual - 1].route;
       setCurrentAtivo(routePage);
-      setCurrentMenuAtual(props.pagesData.curso.conteudo.telas.map(function(e) { return e.route; }).indexOf(routePage));
+      setCurrentMenuAtual(
+        props.pagesData.curso.conteudo.telas
+          .map(function (e) {
+            return e.route;
+          })
+          .indexOf(routePage)
+      );
     }
 
-    setLoad(true)
-  },[load]);
+    setLoad(true);
+  }, [load]);
 
   function clickMenu(e) {
     if (e.target.className === "travado") return;
-    
-    props.setMenuIsOpen(!props.menuIsOpen)
-    let scrollTo = e.target.getAttribute('data-top');
+
+    props.setMenuIsOpen(!props.menuIsOpen);
+    let scrollTo = e.target.getAttribute("data-top");
     window.scrollTo({
       top: scrollTo - 30,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
- 
-  if(!load && menuListTop.length !== 0){
-    return(
-      <div>carregando</div>
-    )
+
+  if (!load && menuListTop.length !== 0) {
+    return <div>carregando</div>;
   } else {
     let menuRender;
 
-    if(props.mode === "onepage"){
-      menuRender = <ListaMenu
-        tagElement="ul"
-        tipoMenu="onepage"
-        className="ulMenuOne"
-        bottomReached={endPosition}
-        listItens={menuListTop}
-        menuAtivo={currentMenuAtual}
-        lastVisited={itemsViewed}
-        onClick={clickMenu}
-      />
+    if (props.mode === "onepage") {
+      menuRender = (
+        <ListaMenu
+          tagElement="ul"
+          tipoMenu="onepage"
+          className="ulMenuOne"
+          bottomReached={endPosition}
+          listItens={menuListTop}
+          menuAtivo={currentMenuAtual}
+          lastVisited={itemsViewed}
+          onClick={clickMenu}
+        />
+      );
     } else {
       // console.log("Menu", props.pageAtual)
-      menuRender = <ListaMenu
-        tagElement="ul"
-        tipoMenu="multipage"
-        className="ulMenu"
-        bottomReached={endPosition}
-        listItens={menuListPages}
-        menuAtivo={currentAtivo}
-        itemVisited={currentMenuAtual}
-      />
+      menuRender = (
+        <ListaMenu
+          tagElement="ul"
+          tipoMenu="multipage"
+          className="ulMenu"
+          bottomReached={endPosition}
+          listItens={menuListPages}
+          menuAtivo={currentAtivo}
+          itemVisited={currentMenuAtual}
+        />
+      );
     }
 
     return (
@@ -116,18 +138,15 @@ function Menu(props) {
         <Container>
           <Row>
             <Col>
-              <div className="conteudoMenu">
-                { menuRender }
-              </div>
+              <div className="conteudoMenu">{menuRender}</div>
             </Col>
           </Row>
         </Container>
-  
+
         <div className="menuBG"></div>
       </nav>
     );
   }
- 
 }
 
 export default Menu;

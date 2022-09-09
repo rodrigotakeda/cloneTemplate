@@ -13,7 +13,7 @@ import BotoesNavegacao from "./customComponents/botoesNavegacao";
 
 function Page1() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
- 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -20,7 +20,6 @@ function ScreenRoutes(props) {
   const { menuPages, setMenuPages } = useContext(GlobalState);
 
   let recebeLoad;
-
   const [pagesAtual, setPagesAtual] = useState();
   const [allPages, setAllPages] = useState([]);
 
@@ -35,12 +34,12 @@ function ScreenRoutes(props) {
   }, [props.sco.apiConnected]);
 
   useEffect(() => {
-    if (checkConnect) {
+    if (checkConnect || props.activateScorm == false) {
       recebeLoad = loadScorm_Func2(props.sco);
       setMenuPages(recebeLoad.menu);
       setStartPage(recebeLoad.paginaInicial);
 
-      setCheckLoaded(true)
+      setCheckLoaded(true);
     }
   }, [checkConnect]);
 
@@ -56,16 +55,18 @@ function ScreenRoutes(props) {
         );
       }
 
-      setAllPages(pagesArray.map((Page, id) => {
-        return (
-          <Route
-            exact
-            key={id}
-            path={`/${pagesData.curso.conteudo.telas[id].route}`}
-            element={<Page />}
-          />
-        );
-      }));
+      setAllPages(
+        pagesArray.map((Page, id) => {
+          return (
+            <Route
+              exact
+              key={id}
+              path={`/${pagesData.curso.conteudo.telas[id].route}`}
+              element={<Page />}
+            />
+          );
+        })
+      );
 
       setCheckPages(true);
     }
@@ -74,7 +75,6 @@ function ScreenRoutes(props) {
   if (checkPages == false) {
     return <div>Carregando</div>;
   } else {
-    console.log('Routes')
     return (
       <HashRouter>
         <Routes>

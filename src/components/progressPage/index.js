@@ -7,21 +7,22 @@ import { useState, useEffect, useContext } from "react";
 // Functions
 import calcPercentage from "../../globalFunctions/generalCalcs/calcPercentage";
 import { Fragment } from "react/cjs/react.production.min";
-import {ScoLearner} from "../scormComplete"
+import { ScoLearner } from "../scormComplete";
 import GlobalState from "../../contexts/globalState";
 
 function ProgressPage(props) {
   // none, onlyText, textBar, perSection
   const [widthBar, setWidthBar] = useState(0);
   const [lastWidthBar, setLastWidthBar] = useState(0);
-  
+
   const [menuListTop, setMenuListTop] = useState([]);
   const [load, setLoad] = useState(false);
 
   // const [menuScrolled, setMenuScrolled] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
   const { endPosition, setEndPosition } = useContext(GlobalState);
-  const menuList = Array.apply(null,document.querySelectorAll('section'));
+  const { pagesData } = useContext(GlobalState);
+  const menuList = Array.apply(null, document.querySelectorAll("section"));
 
   useEffect(() => {
     window.addEventListener("scroll", scrollPoint);
@@ -32,11 +33,15 @@ function ProgressPage(props) {
   }, [lastWidthBar, menuListTop, menuScrolled, endPosition]);
 
   useEffect(() => {
-    setMenuListTop(menuList.map((menuItem, id) => {
-      return({ menu: menuItem.offsetTop, index: id })
-    }))
-    setLoad(true)
-  },[load]);
+    if (pagesData.curso.mode == "onepage") {
+      setMenuListTop(
+        menuList.map((menuItem, id) => {
+          return { menu: menuItem.offsetTop, index: id };
+        })
+      );
+      setLoad(true);
+    }
+  }, [load]);
 
   function scrollPoint() {
     let scrollHeight = window.pageYOffset + window.innerHeight;
@@ -44,20 +49,26 @@ function ProgressPage(props) {
 
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
       setEndPosition(true);
+      console.log("aqui");
     }
 
     let altPosition = window.pageYOffset;
     let numMaior = 0;
-    menuListTop.forEach(obj => {
-      if (Number(altPosition) >= obj.menu) { numMaior = obj.index; }
-    })
+    menuListTop.forEach((obj) => {
+      if (Number(altPosition) >= obj.menu) {
+        numMaior = obj.index;
+      }
+    });
 
-    setMenuScrolled(numMaior)
+    setMenuScrolled(numMaior);
 
     if (endPosition) {
       setEndPosition(false);
     } else {
-      let barUpdated = calcPercentage(window.pageYOffset, (scrollPosition - window.innerHeight));
+      let barUpdated = calcPercentage(
+        window.pageYOffset,
+        scrollPosition - window.innerHeight
+      );
 
       if (props.progressType === "maxView") {
         if (barUpdated > lastWidthBar) {
@@ -70,10 +81,8 @@ function ProgressPage(props) {
     }
   }
 
-  if(!load && menuListTop.length !== 0){
-    return(
-      <div>carregando</div>
-    )
+  if (!load && menuListTop.length !== 0) {
+    return <div>carregando</div>;
   } else {
     return (
       <Fragment>
@@ -83,7 +92,7 @@ function ProgressPage(props) {
           <span>{widthBar}%</span>
         </div>
       </Fragment>
-    ); 
+    );
   }
 }
 
