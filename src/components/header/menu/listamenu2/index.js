@@ -9,7 +9,7 @@ import LinkTravado from "../linktravado";
 
 import SaveScorm from "../../../scorm/saveScorm";
 
-function ListaMenu(props) {
+function ListaMenu2(props) {
   // passe um valor de elemento de lista em tagElement pra setar as tags <ol>,<li>
   let TagElement = props.tagElement;
   //const [currentClass, setCurrentClass] = useState('');
@@ -28,15 +28,35 @@ function ListaMenu(props) {
   const { menuPages, setMenuPages } = useContext(GlobalState);
   
   useEffect(() => {
-    if (menuPages.length === 0) {
-      setNewSuspendData(props.listItens.map(() => { return 0; }));
-    } else {
-      setNewSuspendData(menuPages);
-    }
-    
-    console.log('Menu: ', menuPages);
+    // console.log('API Interno: ', props.sco.apiConnected);
 
-    setLoad(true)
+    // console.log('Bottom:', props.bottomReached);
+    if (props.sco && isScorm && props.listItens != '') {
+      if (props.sco.suspendData.dataCurso) {
+        // console.log(props.sco.suspendData.dataCurso)
+        // console.log(props.sco.suspendData.dataCurso.menu);
+
+        if (props.sco.suspendData.dataCurso.menu != undefined) {
+          console.log('MenuPages');
+          setNewSuspendData(menuPages);
+        } else {
+          // console.log('MenuProps');
+          setNewSuspendData(props.listItens.map(() => { return 0; }));    
+        }
+      } else {
+        console.log('ENTROU NO LIST')
+        setNewSuspendData(props.listItens.map(() => { return 0; }));  
+      }
+      setLoad(true)
+    } else if ( props.listItens != '') {      
+      if (menuPages != '') { 
+        setNewSuspendData(menuPages);
+      } else {
+        setNewSuspendData(props.listItens.map(() => { return 0; }));  
+      }
+
+      setLoad(true)
+    }
   }, [isScorm, menuPages, props.listItens]);
 
 //   useEffect(() => {
@@ -223,4 +243,4 @@ function ListaMenu(props) {
   }
 }
 
-export default withScorm()(ListaMenu);
+export default withScorm()(ListaMenu2);

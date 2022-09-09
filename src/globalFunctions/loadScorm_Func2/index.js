@@ -2,14 +2,9 @@ function loadScorm_Func2(props) {
   let startPage = Number(0);
   let menuPages = [];
 
-  // console.log('LS_Scorm: ', isScorm);
   let data;
-
   const strData = props.suspendData.dataCurso;
   console.log("Load Data: ", strData);
-  //let data = JSON.parse(strData);
-
-  // if (props && isScorm) {
 
   if (strData != undefined) {
     data = JSON.parse(strData);

@@ -16,19 +16,18 @@ function ScreenRoutes(props) {
   const pagesArray = [Page2, Page1, Page3, Page4]; // adicione as chamadas de pagina desse array
   const isScorm = props.sco.apiConnected;
 
-  const [load, setLoad] = useState(false);
-  const [recebeLoad, setRecebeLoad] = useState({});
-
   const { pagesData } = useContext(GlobalState);
   const { startPage, setStartPage } = useContext(GlobalState);
   const { menuPages, setMenuPages } = useContext(GlobalState);
 
-  let pagesAtual;
-  let testeLoad;
-  let allPages = [];
+  let recebeLoad;
+
+  const [pagesAtual, setPagesAtual] = useState();
+  const [allPages, setAllPages] = useState([]);
 
   const [checkConnect, setCheckConnect] = useState(false);
   const [checkLoaded, setCheckLoaded] = useState(false);
+  const [checkPages, setCheckPages] = useState(false);
 
   useEffect(() => {
     if (props.sco.apiConnected) {
@@ -38,22 +37,20 @@ function ScreenRoutes(props) {
 
   useEffect(() => {
     if (checkConnect) {
-      testeLoad = loadScorm_Func2(props.sco);
-      setMenuPages(testeLoad.menu);
-      setStartPage(testeLoad.paginaInicial);
-      setCheckLoaded(true);
+      recebeLoad = loadScorm_Func2(props.sco);
+      setMenuPages(recebeLoad.menu);
+      setStartPage(recebeLoad.paginaInicial);
 
-      console.log(testeLoad);
+      setCheckLoaded(true)
     }
   }, [checkConnect]);
 
   useEffect(() => {
     if (checkLoaded) {
-      console.log(startPage);
+      console.log('RouteMenu: ', menuPages)
       if (startPage !== 0) {
-        console.log("passo");
         let NameElement = pagesArray[startPage];
-        pagesAtual = (
+        setPagesAtual(
           <Route
             path={`/${pagesData.curso.conteudo.telas[startPage].route}`}
             element={<NameElement />}
@@ -61,7 +58,7 @@ function ScreenRoutes(props) {
         );
       }
 
-      allPages = pagesArray.map((Page, id) => {
+      setAllPages(pagesArray.map((Page, id) => {
         return (
           <Route
             exact
@@ -70,14 +67,15 @@ function ScreenRoutes(props) {
             element={<Page />}
           />
         );
-      });
-    }
-  }, [checkLoaded, startPage, allPages]);
+      }));
 
-  if (checkLoaded == false) {
+      setCheckPages(true);
+    }
+  }, [checkLoaded, menuPages, startPage]);
+
+  if (checkPages == false) {
     return <div>Carregando</div>;
   } else {
-    console.log(startPage, pagesData, allPages);
     return (
       <HashRouter>
         <Routes>
