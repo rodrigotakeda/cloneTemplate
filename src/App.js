@@ -18,7 +18,7 @@ function App(props) {
   const [startPage, setStartPage] = useState(0);
   const [menuPages, setMenuPages] = useState([]);
 
-  useEffect(() => {;
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -63,11 +63,27 @@ function App(props) {
   } else {
     document.title = pagesData.curso.titulo;
 
-    console.log("Scroll")
-    
+    console.log("Scroll");
+
     return (
-      <ScormProvider version="1.2" debug={process.env.NODE_ENV !== 'production'}>
-        <GlobalState.Provider value={{ pagesData, setPagesData, menuScrolled, setMenuScrolled, endPosition, setEndPosition, startPage, setStartPage, menuPages, setMenuPages }}>
+      <ScormProvider
+        version="1.2"
+        debug={process.env.NODE_ENV !== "production"}
+      >
+        <GlobalState.Provider
+          value={{
+            pagesData,
+            setPagesData,
+            menuScrolled,
+            setMenuScrolled,
+            endPosition,
+            setEndPosition,
+            startPage,
+            setStartPage,
+            menuPages,
+            setMenuPages,
+          }}
+        >
           <ParallaxProvider>
             <ScreenRoutes pagesData={pagesData} />
           </ParallaxProvider>
