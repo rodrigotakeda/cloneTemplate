@@ -14,7 +14,6 @@ import loadScorm_Func2 from "./globalFunctions/loadScorm_Func2";
 
 function ScreenRoutes(props) {
   const pagesArray = [Page2, Page1, Page3, Page4]; // adicione as chamadas de pagina desse array
-  const isScorm = props.sco.apiConnected;
 
   const { pagesData } = useContext(GlobalState);
   const { startPage, setStartPage } = useContext(GlobalState);
@@ -47,7 +46,6 @@ function ScreenRoutes(props) {
 
   useEffect(() => {
     if (checkLoaded) {
-      console.log('RouteMenu: ', menuPages)
       if (startPage !== 0) {
         let NameElement = pagesArray[startPage];
         setPagesAtual(
@@ -76,6 +74,7 @@ function ScreenRoutes(props) {
   if (checkPages == false) {
     return <div>Carregando</div>;
   } else {
+    console.log('Routes')
     return (
       <HashRouter>
         <Routes>

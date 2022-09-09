@@ -33,8 +33,6 @@ function ListaMenu(props) {
     } else {
       setNewSuspendData(menuPages);
     }
-    
-    console.log('Menu: ', menuPages);
 
     setLoad(true)
   }, [isScorm, menuPages, props.listItens]);
@@ -165,13 +163,11 @@ function ListaMenu(props) {
 
           // if(isScorm) {
           //   props.sco.setSuspendData("menu", newData_Items);
-          //   if (newCounter === newData_Items.length) props.sco.setStatus("completed");
+          //   if (newCounter === newData_Items.length)
           // } else {
           //   window.sessionStorage.setItem('menu', JSON.stringify(newData_Items));
           //   if (newCounter === newData_Items.length) window.sessionStorage.setItem('status', 'completed');  
           // }
-
-          // HABILITADA A PROXIMA...
           if (newCounter !== newData_Items.length) {
             let newList_Items = [...listItens]
             let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
@@ -198,6 +194,15 @@ function ListaMenu(props) {
               console.log('Menu: ', menuPages)
               setScormSaved(true);
             }
+          } else if (newCounter === newData_Items.length) {
+            if (!dataChanged) {
+              setMenuPages(newData_Items);
+              setDataChanged(true);
+            } else {
+              setScormSaved(true);
+              console.log('Completed')
+            }
+            if(isScorm) { props.sco.setStatus("completed"); }
           }
         }
       }
