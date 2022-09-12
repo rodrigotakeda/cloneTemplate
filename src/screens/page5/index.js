@@ -1,6 +1,6 @@
 // React Elements/Hooks
 import { Fragment } from "react/cjs/react.production.min";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // Components
 import Header from "../../components/header";
@@ -9,13 +9,12 @@ import Footer from "../../components/footer";
 import TituloTextos from "./customComponents/titulosTextos";
 import Title from "../../components/texts/title";
 import ProgressPage from "../../components/progressPage";
+import BotoesNavegacao from "./customComponents/botoesNavegacao";
+import LoadPage from "../../components/loadPage";
 
-function Page4() {
+function Page5() {
   const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
- 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   useEffect(() => {
     if (temaCor) {
       document.body.classList.value.search("ios") !== -1
@@ -27,22 +26,21 @@ function Page4() {
   }, [temaCor]);
 
   return (
-    <Fragment>
+    <LoadPage>
       <ProgressPage className="textBar d-none" />
       <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={4} className="" />
       <Wrapper>
-        <TituloTextos sectionTitle="Page 4" />
-        <Title typeH="1" className="" content={<Fragment>Page 4</Fragment>} />
+        <TituloTextos sectionTitle="Page 5" />
+        <Title typeH="1" className="" content={<Fragment>Page 5</Fragment>} />
         <hr />
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
-        <TituloTextos sectionTitle="Títulos e textos" />
-        <TituloTextos sectionTitle="Títulos e textos" />
+        <BotoesNavegacao />
       </Wrapper>
 
       <Footer fixed className="" />
-    </Fragment>
+    </LoadPage>
   );
 }
 
-export default Page4;
+export default Page5;

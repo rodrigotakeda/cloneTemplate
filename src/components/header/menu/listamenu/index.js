@@ -173,55 +173,51 @@ function ListaMenu(props) {
           newData_fromItem = 1;
           newData_Items[props.itemVisited] = newData_fromItem;
 
-          console.log(props.bottomReached);
           let newCounter = Number(0);
           newData_Items.forEach((obj) => {
             if (obj === 1) newCounter++;
           });
 
-          // if(isScorm) {
-          //   props.sco.setSuspendData("menu", newData_Items);
-          //   if (newCounter === newData_Items.length)
-          // } else {
-          //   window.sessionStorage.setItem('menu', JSON.stringify(newData_Items));
-          //   if (newCounter === newData_Items.length) window.sessionStorage.setItem('status', 'completed');
-          // }
-
           if (newCounter !== newData_Items.length) {
             let newList_Items = [...listItens];
             let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
 
-            newItem_fromList = (
-              <li key={props.itemVisited + 1} className={""}>
-                <LinkTravado
-                  content={props.listItens[props.itemVisited + 1].content}
-                  link={props.listItens[props.itemVisited + 1].route}
-                  trava={""}
-                />
-              </li>
-            );
+            if (!travaComplete) {
+              newItem_fromList = (
+                <li key={props.itemVisited + 1} className={""}>
+                  <LinkTravado
+                    content={props.listItens[props.itemVisited + 1].content}
+                    link={props.listItens[props.itemVisited + 1].route}
+                    trava={""}
+                  />
+                </li>
+              );
+            }
 
             newList_Items[props.itemVisited + 1] = newItem_fromList;
             setListItens(newList_Items);
 
             if (!dataChanged) {
-              console.log("Menu_Data: ", newData_Items);
+              // console.log("Menu_Data: ", newData_Items);
               setMenuPages(newData_Items);
               setDataChanged(true);
             } else {
-              console.log("Menu: ", menuPages);
+              // console.log("Menu: ", menuPages);
               setScormSaved(true);
+              setEndScroll(true);
             }
           } else if (newCounter === newData_Items.length && !travaComplete) {
+            setMenuPages(newData_Items);
             setScormSaved(true);
-            console.log("Completed");
             isScorm && props.sco.setStatus("completed");
+
+            console.log("Completed");
             setTravaComplete(true);
           }
         }
       }
     }
-  }, [load, changeMenu, props, endScroll, newSuspendData, travaComplete]);
+  }, [load, changeMenu, props.bottomReached, endScroll, newSuspendData, travaComplete]);
 
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);

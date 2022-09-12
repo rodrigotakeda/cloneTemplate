@@ -82,7 +82,7 @@ function App(props) {
           }}
         >
           <ParallaxProvider>
-            <ScreenRoutes pagesData={pagesData} activateScorm={false} />
+            <ScreenRoutes pagesData={pagesData} />
           </ParallaxProvider>
         </GlobalState.Provider>
       </ScormProvider>

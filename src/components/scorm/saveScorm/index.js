@@ -27,7 +27,7 @@ const Props = (props) => {
 		if(isScorm) {
 			props.sco.setSuspendData('dataCurso', JSON.stringify(strScorm));
 		} else {
-			window.sessionStorage.setItem('cmi.suspend_data', JSON.stringify(strScorm)); }
+			window.sessionStorage.setItem('dataCurso', JSON.stringify(strScorm)); }
 	}, [strScorm])
 
     return (

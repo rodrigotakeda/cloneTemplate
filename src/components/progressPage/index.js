@@ -7,7 +7,6 @@ import { useState, useEffect, useContext } from "react";
 // Functions
 import calcPercentage from "../../globalFunctions/generalCalcs/calcPercentage";
 import { Fragment } from "react/cjs/react.production.min";
-import { ScoLearner } from "../scormComplete";
 import GlobalState from "../../contexts/globalState";
 
 function ProgressPage(props) {
@@ -20,7 +19,8 @@ function ProgressPage(props) {
 
   // const [menuScrolled, setMenuScrolled] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
-  const { endPosition, setEndPosition } = useContext(GlobalState);
+  
+  const [ endPositionProg, setEndPositionProg ] = useState(false);
   const { pagesData } = useContext(GlobalState);
   const menuList = Array.apply(null, document.querySelectorAll("section"));
 
@@ -30,7 +30,7 @@ function ProgressPage(props) {
     return () => {
       window.removeEventListener("scroll", scrollPoint);
     };
-  }, [lastWidthBar, menuListTop, menuScrolled, endPosition]);
+  }, [lastWidthBar, menuListTop, menuScrolled, endPositionProg]);
 
   useEffect(() => {
     if (pagesData.curso.mode == "onepage") {
@@ -47,9 +47,10 @@ function ProgressPage(props) {
     let scrollHeight = window.pageYOffset + window.innerHeight;
     let scrollPosition = document.documentElement.scrollHeight;
 
+    // console.log((scrollHeight - scrollPosition) / scrollHeight);
+
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-      setEndPosition(true);
-      console.log("aqui");
+      setEndPositionProg(true);
     }
 
     let altPosition = window.pageYOffset;
@@ -62,8 +63,8 @@ function ProgressPage(props) {
 
     setMenuScrolled(numMaior);
 
-    if (endPosition) {
-      setEndPosition(false);
+    if (endPositionProg) {
+      setEndPositionProg(false);
     } else {
       let barUpdated = calcPercentage(
         window.pageYOffset,

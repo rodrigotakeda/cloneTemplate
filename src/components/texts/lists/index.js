@@ -37,7 +37,7 @@ function List(props) {
       <li
         key={id}
         className={list.className}
-        onClick={(e) => props.onClick(e)}
+        onClick={props.onClick && ((e) => props.onClick(e))}
         attribute={list.attribute && list.attribute}
       >
         {list.content}
