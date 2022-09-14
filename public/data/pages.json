@@ -3,7 +3,7 @@
 		"modulo": "",
         "titulo": "Template React",
 		"mode" : "",
-		"scorm" : true,
+		"scorm" : false,
 		"loader": false,
 		"template": "custom",
 		"menu": "",
@@ -11,19 +11,19 @@
 		"conteudo": {
 			"telas":[
 				{					
-					"route": "page2",
-					"titulo": "Página 02"
-				},
-				{					
 					"route": "page1",
 					"titulo": "Página 01"
+				},
+				{					
+					"route": "page2",
+					"titulo": "Página 02"
 				},
 				{					
 					"route": "page3",
 					"titulo": "Página 03"
 				},
 				{					
-					"route": "page5",
+					"route": "page4",
 					"titulo": "Página 04"
 				}
 				

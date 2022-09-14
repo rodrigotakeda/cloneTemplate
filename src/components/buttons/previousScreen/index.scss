@@ -1,4 +1,4 @@
-@import "src/App.scss";
+@import "src/styles/default/_init.scss";
 
 @each $tema, $cor in $cores {
   $cor-texto: map-get($cor, cor-texto);

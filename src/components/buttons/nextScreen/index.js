@@ -13,7 +13,6 @@ import Btn from "../../buttons";
 
 function NextScreen(props) {
   const { pagesData, setPagesData } = useContext(GlobalState);
-  const { endPosition, setEndPosition } = useContext(GlobalState);
   const [disable, setDisable] = useState(false);
   const location = useLocation();
   const actualPath = location.pathname;
@@ -29,8 +28,6 @@ function NextScreen(props) {
 
   //avanca para a proxima tela
   function handleNext() {
-    setEndPosition(false);
-
     const newPath = `/${
       pagesData.curso.conteudo.telas[idActualPage + 1].route
     }`;

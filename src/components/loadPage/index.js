@@ -1,5 +1,5 @@
 // React Elements/Hooks
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import { Fragment } from "react/cjs/react.production.min";
 
 // Functions
@@ -9,15 +9,23 @@ import verificaBottom from "../../globalFunctions/verificaBottom";
 function LoadPage(props) {
   const { endPosition, setEndPosition } = useContext(GlobalState);
   const [load, setLoad] = useState(false);
-  const [temaCor, setTemaCor] = useState("custom"); //seta a cor do tema no body. Passar uma classe aqui caso queira iniciar com um tema
-  
+
+  const resetWindowScrollPosition = useCallback(
+    () => window.scrollTo(0, 0),
+    []
+  );
+
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      resetWindowScrollPosition();
+    };
+  }, [resetWindowScrollPosition]);
+
   useEffect(() => {
     if (!load) {
       setEndPosition(false);
-
       setLoad(true);
-      console.log('ENTER')
-      window.scrollTo(0, 0);
+      resetWindowScrollPosition();
     }
 
     if (!endPosition) {
@@ -27,16 +35,16 @@ function LoadPage(props) {
         window.removeEventListener("scroll", scrollEnd);
       };
     }
-  }, [load, endPosition]);
+  }, [load, endPosition, document.body.scrollHeight]);
 
   function scrollEnd() {
-    const recebePosition = verificaBottom();
-    if (recebePosition)  {
+    let recebePosition = verificaBottom();
+    if (recebePosition) {
       setEndPosition(true);
     }
   }
 
-  return <Fragment>{props.children}</Fragment>
+  return <Fragment>{props.children}</Fragment>;
 }
 
 export default LoadPage;

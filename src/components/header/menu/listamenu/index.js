@@ -42,36 +42,6 @@ function ListaMenu(props) {
     setLoad(true);
   }, [isScorm, menuPages, props.listItens]);
 
-  //   useEffect(() => {
-  //     const listItens = props.listItens.map((list, id) => {
-  //       if(isScorm) {
-  //         if (props.lastVisited[id] === 1) {
-  //           currentClass = '';
-  //           // newSuspendData[id] = 1;
-
-  //           if(id === props.menuAtivo) { currentClass = 'active'; }
-  //         } else {
-  //           currentClass = 'travado';
-  //         }
-  //       } else {
-  //         currentClass = '';
-  //         if(id === props.menuAtivo) { currentClass = 'active'; }
-  //       }
-
-  //       return (
-  //         <li
-  //           key={id}
-  //           onClick={(e) => props.onClick(e)}
-  //           // className={`${ props.menuAtivo===id ? "active" : ""}`}
-  //           className={currentClass}
-  //           // data-seen={dataSeen}
-  //           data-top={list.menu}>
-  //             {list.content}
-  //         </li>
-  //       );
-  //     })
-  // },[]);
-
   useEffect(() => {
     // newData = [...newSuspendData];
     if (load && newSuspendData !== "") {
@@ -126,7 +96,12 @@ function ListaMenu(props) {
               } else if (id === props.itemVisited) {
                 currentClass = "active";
               } else {
-                currentClass = "travado";
+
+                if (isScorm) {
+                  currentClass = "travado";
+                } else {
+                  currentClass = "";
+                }
               }
 
               return (

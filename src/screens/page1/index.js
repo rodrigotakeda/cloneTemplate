@@ -28,7 +28,7 @@ function Page1() {
   return (
     <LoadPage>
       <ProgressPage className="textBar d-none" />
-      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={2} className="" />
+      <Header hideOnScroll setTemaCor={setTemaCor} pageAtual={1} className="" />
       <Wrapper>
         <TituloTextos sectionTitle="Page 1" />
         <Title typeH="1" className="" content={<Fragment>Page 1</Fragment>} />

@@ -4,16 +4,15 @@ import { useContext, useEffect, useState } from "react";
 import Page1 from "./screens/page1";
 import Page2 from "./screens/page2";
 import Page3 from "./screens/page3";
-import Page5 from "./screens/page5";
+import Page4 from "./screens/page4";
 
 import { withScorm } from "react-scorm-provider";
 
 import GlobalState from "./contexts/globalState";
 import loadScorm_Func from "./globalFunctions/loadScorm_Func";
-import loadScorm_Func2 from "./globalFunctions/loadScorm_Func2";
 
 function ScreenRoutes(props) {
-  const pagesArray = [Page2, Page1, Page3, Page5]; // adicione as chamadas de pagina desse array
+  const pagesArray = [Page1, Page2, Page3, Page4]; // adicione as chamadas de pagina desse array
 
   const { pagesData } = useContext(GlobalState);
   const { startPage, setStartPage } = useContext(GlobalState);
@@ -52,7 +51,7 @@ function ScreenRoutes(props) {
 
   useEffect(() => {
     if (checkConnect) {
-      recebeLoad = loadScorm_Func2(props.sco);
+      recebeLoad = loadScorm_Func(props.sco);
       // console.log('Load:', recebeLoad)
       setMenuPages(recebeLoad.menu);
       setStartPage(recebeLoad.paginaInicial);

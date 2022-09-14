@@ -1,5 +1,4 @@
-@import "src/App.scss";
-
+@import "src/styles/default/_init.scss";
 .title {
   @at-root {
     h1#{&},

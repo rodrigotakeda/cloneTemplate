@@ -1,104 +1,137 @@
-@import "src/App.scss";
+@import "src/styles/default/_init.scss";
 
-.list {
+.navComponent {
   @at-root {
-    ul#{&} {
-      margin: 0 0 $espaco-margin;
-      padding: 0 0 0 15px;
-
-      li {
-        font-family: $fonte;
-        font-size: 1em;
-        list-style: none;
-        margin: 5px 0;
-        padding: 0;
+    nav#{&} {
+      .conteudoMenu {
         position: relative;
-        vertical-align: middle;
 
-        &::before {
-          color: $cor3;
-          content: "\2022";
-          display: block;
-          font-size: 24px;
-          line-height: 1;
-          position: absolute;
-          top: 0;
-          left: -15px;
-        }
-      }
-      @media #{$bp-phone} {
-        li {
-          &::before {
-            font-size: 21px;
-            line-height: 1.2;
-          }
-        }
-      }
-    }
+        ul {
+          counter-reset: numberLi;
+          list-style: none;
+          margin: 0;
+          padding: 0;
 
-    ol#{&} {
-      counter-reset: foo;
-      list-style-type: none;
-      margin: 0 0 $espaco-margin;
-      padding: 0;
-
-      li {
-        font-family: $fonte;
-        font-size: 1em;
-        margin: 5px 0;
-
-        &::before {
-          counter-increment: foo;
-          color: $cor3;
-          content: counter(foo) ". ";
-          display: inline-block;
-          font-weight: 700;
-          position: relative;
-          margin-right: 5px;
-        }
-      }
-    }
-  }
-
-  a,
-  a:hover,
-  a:focus {
-    text-decoration: none;
-  }
-}
-
-@each $tema, $cor in $cores {
-  $cor-texto: map-get($cor, cor-texto);
-  $cor-pagina: map-get($cor, cor-pagina);
-
-  $cor1: map-get($cor, color1);
-  $cor2: map-get($cor, color2);
-  $cor3: map-get($cor, color3);
-  $cor4: map-get($cor, color4);
-  $cor5: map-get($cor, color5);
-
-  $svg1: str_slice(#{$cor1}, 2, 7);
-  $svg2: str_slice(#{$cor2}, 2, 7);
-  $svg3: str_slice(#{$cor3}, 2, 7);
-  $svg4: str_slice(#{$cor4}, 2, 7);
-
-  body,
-  body.#{$tema} {
-    .list {
-      @at-root {
-        ul#{&} {
           li {
+            position: relative;
+            text-transform: uppercase;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+
             &::before {
+              background: $cor2;
+              border-bottom: solid 2px $cor4;
+              content: "";
+              position: absolute;
+              width: 100vw;
+              height: 100%;
+              left: 50%;
+              top: 0;
+              z-index: 0;
+
+              @include transition(all 0.6s);
+              @include transform(translateX(-50%));
+            }
+
+            &:hover {
+              &::before {
+                background: $cor4;
+              }
+            }
+
+            &.active {
+              &::before {
+                background: $cor4;
+                border-color: $cor2;
+              }
+
+              a {
+                cursor: default;
+                color: #fff;
+
+                &::before {
+                  background: $cor1;
+                  color: #fff;
+                }
+              }
+            }
+
+            a {
               color: $cor3;
+              display: flex;
+              align-items: center;
+              font-family: $fonte3;
+              font-weight: 700;
+              font-size: 24px;
+
+              margin: 0;
+              padding: 12px 0;
+              text-decoration: none;
+              text-transform: uppercase;
+              position: relative;
+              height: 100%;
+              width: 100%;
+              z-index: 12;
+
+              @include transition(all 0.4s);
+
+              &:hover,
+              &:focus {
+                color: #fff;
+              }
+
+              &::before {
+                background: $cor1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 21px;
+                width: 30px;
+                height: 30px;
+                counter-increment: numberLi;
+                content: counter(numberLi);
+                border-radius: 50%;
+                position: relative;
+                margin-right: 10px;
+              }
+
+              &::after {
+                background: transparent;
+                content: "";
+                position: absolute;
+                width: 100vw;
+                height: 100%;
+                left: 50%;
+                top: 0;
+                z-index: 10;
+
+                @include transform(translateX(-50%));
+              }
             }
           }
-        }
 
-        ol#{&} {
-          &.list {
+          &.ulMenu,
+          &.ulMenuOne {
             li {
+              cursor: pointer;
+              font-size: 1rem;
+              color: #fff;
+              padding: 0.5em 0;
+
               &::before {
-                color: $cor3;
+                z-index: -1;
+              }
+
+              &.travado {
+                color: #aaa;
+                cursor: default;
+
+                &::before {
+                  background: #aaa;
+                  border-bottom-color: #666;
+                }
               }
             }
           }

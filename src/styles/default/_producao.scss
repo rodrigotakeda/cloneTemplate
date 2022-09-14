@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-overflow-scrolling: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: initial;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+
+body {
+  background: $cor-pagina;
+  color: $cor-texto;
+  font-family: $fonte;
+  font-weight: 400;
+  line-height: 1.5;
+  position: relative;
+
+  &.initOverflow {
+    overflow: hidden;
+  }
+}
+
+.overflow {
+  overflow: hidden;
+}
+
+.leitorTela,
+.visuallyhidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+
+.rounded-border {
+  border-radius: $radius-padrao;
+}
+
+strong {
+  font-weight: 700;
+}
+
+.defaultCursor {
+  cursor: default !important;
+}
+
+/* NO SELECT */
+.no_select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
