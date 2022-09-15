@@ -43,30 +43,21 @@ function ListaMenu(props) {
   }, [isScorm, menuPages, props.listItens]);
 
   useEffect(() => {
-    // newData = [...newSuspendData];
     if (load && newSuspendData !== "") {
       if (props.tipoMenu === "onepage") {
         setListItens(
           props.listItens.map((list, id) => {
-            if (isScorm) {
-              if (props.lastVisited[id] === 1) {
-                currentClass = "";
-                newSuspendData[id] = 1;
-                if (id === props.menuAtivo) {
-                  currentClass = "active";
-                }
-              } else {
-                currentClass = "travado";
+            if (props.lastVisited[id] === 1) {
+              currentClass = "";
+              newSuspendData[id] = 1;
+              if (id === props.menuAtivo) {
+                currentClass = "active";
               }
             } else {
-              if (props.lastVisited[id] === 1) {
-                currentClass = "";
-                newSuspendData[id] = 1;
-                if (id === props.menuAtivo) {
-                  currentClass = "active";
-                }
-              } else {
+              if (isScorm) {
                 currentClass = "travado";
+              } else {
+                currentClass = "";
               }
             }
 
@@ -74,9 +65,7 @@ function ListaMenu(props) {
               <li
                 key={id}
                 onClick={(e) => props.onClick(e)}
-                // className={`${ props.menuAtivo===id ? "active" : ""}`}
                 className={currentClass}
-                // data-seen={dataSeen}
                 data-top={list.menu}
               >
                 {list.content}
@@ -120,26 +109,60 @@ function ListaMenu(props) {
       }
 
       if (props.tipoMenu === "onepage") {
-        if (isScorm) {
-          props.sco.setSuspendData("menu", newSuspendData);
-        } else {
-          window.sessionStorage.setItem("menu", newSuspendData);
-        }
+        // if (isScorm) {
+        //   props.sco.setSuspendData("menu", newSuspendData);
+        // } else {
+        //   window.sessionStorage.setItem("menu", newSuspendData);
+        // }
+
+        // if (props.bottomReached && !endScroll) {
+        //   let newArr = [...newSuspendData];
+        //   newArr.forEach((obj) => {
+        //     obj = 1;
+        //   });
+        //   props.sco.setSuspendData("menu", newArr);
+
+        //   // if (isScorm) {
+        //   //   props.sco.setStatus("completed");
+        //   // } else {
+        //   //   window.sessionStorage.setItem("status", "completed");
+        //   // }
+
+        //   setEndScroll(true);
+        // }
 
         if (props.bottomReached && !endScroll) {
-          let newArr = [...newSuspendData];
-          newArr.forEach((obj) => {
-            obj = 1;
+          let newData_Items = [...newSuspendData];
+          let newData_fromItem = newData_Items[props.itemVisited];
+          newData_fromItem = 1;
+          newData_Items[props.itemVisited] = newData_fromItem;
+
+          let newCounter = Number(0);
+          newData_Items.forEach((obj) => {
+            if (obj === 1) newCounter++;
           });
-          props.sco.setSuspendData("menu", newArr);
 
-          if (isScorm) {
-            props.sco.setStatus("completed");
-          } else {
-            window.sessionStorage.setItem("status", "completed");
+          if (newCounter !== newData_Items.length) {
+            let newList_Items = [...listItens];
+            let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
+            newList_Items[props.itemVisited + 1] = newItem_fromList;
+            setListItens(newList_Items);
+
+            if (!dataChanged) {
+              // console.log("Menu_Data: ", newData_Items);
+              setMenuPages(newData_Items);
+              setDataChanged(true);
+            } else {
+              // console.log("Menu: ", menuPages);
+              setScormSaved(true);
+              setEndScroll(true);
+            }
+          } else if (newCounter === newData_Items.length && !travaComplete) {
+            setMenuPages(newData_Items);
+            setScormSaved(true);
+            isScorm && props.sco.setStatus("completed");
+            console.log("Completed");
           }
-
-          setEndScroll(true);
         }
       } else {
         if (props.bottomReached && !endScroll) {
@@ -192,7 +215,7 @@ function ListaMenu(props) {
         }
       }
     }
-  }, [load, changeMenu, props.bottomReached, endScroll, newSuspendData, travaComplete]);
+  }, [load, changeMenu, props.bottomReached, props.menuAtivo, endScroll, newSuspendData, travaComplete]);
 
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);

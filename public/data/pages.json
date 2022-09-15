@@ -2,7 +2,7 @@
     "curso": {
 		"modulo": "",
         "titulo": "Template React",
-		"mode" : "",
+		"mode" : "onepage",
 		"scorm" : false,
 		"loader": false,
 		"template": "custom",

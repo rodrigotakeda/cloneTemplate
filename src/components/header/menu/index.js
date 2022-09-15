@@ -9,6 +9,7 @@ import GlobalState from "../../../contexts/globalState";
 // Components
 import { Container, Row, Col } from "react-bootstrap";
 import ListaMenu from "./listamenu";
+import { Fragment } from "react/cjs/react.production.min";
 // import BotaoMenu from "./menu/botaomenu";
 
 function Menu(props) {
@@ -18,6 +19,7 @@ function Menu(props) {
   let menuList = [];
   const [currentMenuAtual, setCurrentMenuAtual] = useState(0);
   const [currentAtivo, setCurrentAtivo] = useState(0);
+
   // const [lastItemViewed, setLastItemViewed] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
   const { endPosition, setEndPosition } = useContext(GlobalState);
@@ -29,7 +31,6 @@ function Menu(props) {
   }, [props.menuIsOpen]);
 
   useEffect(() => {
-    scrollMenu();
     window.addEventListener("scroll", scrollMenu);
 
     return () => {
@@ -82,6 +83,8 @@ function Menu(props) {
       );
     }
 
+    scrollMenu();
+
     setLoad(true);
   }, [load]);
 
@@ -102,6 +105,7 @@ function Menu(props) {
     let menuRender;
 
     if (props.mode === "onepage") {
+      // console.log(currentMenuAtual, menuListTop, itemsViewed)
       menuRender = (
         <ListaMenu
           tagElement="ul"

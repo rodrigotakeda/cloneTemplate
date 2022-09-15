@@ -10,6 +10,8 @@ const Props = (props) => {
 
 	const { menuPages } = useContext(GlobalState);
 	const { startPage } = useContext(GlobalState);
+
+	// console.log('Enter Scorm')
 	
 	useEffect(() => {
 		setSuspendData({ "menu": menuPages, "paginaInicial": startPage })

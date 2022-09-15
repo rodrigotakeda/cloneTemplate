@@ -35,7 +35,18 @@ function Page1() {
         <hr />
         <TituloTextos sectionTitle="Títulos e textos" />
         <TituloTextos sectionTitle="Títulos e textos" />
-        <BotoesNavegacao />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
+        <TituloTextos sectionTitle="Títulos e textos" />
       </Wrapper>
 
       <Footer fixed className="" />

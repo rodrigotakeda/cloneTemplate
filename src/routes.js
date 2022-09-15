@@ -33,7 +33,7 @@ function ScreenRoutes(props) {
       setCounterEntry(counterEntry + 1);
     } else if (counterEntry > 0) {
       if (pagesData.curso.scorm && props.sco.apiConnected) {
-        console.log('CAMINHO 1')  
+        // console.log('CAMINHO 1')  
         setCheckConnect(true);
       } else if ((!pagesData.curso.scorm && props.sco.apiConnected) || (pagesData.curso.scorm && !props.sco.apiConnected)) {
         setCheckConnect(false);
@@ -43,7 +43,7 @@ function ScreenRoutes(props) {
           setErrorLoader('SCORM Habilitado no JSON, Desabilite!')
         }
       } else {
-        console.log('CAMINHO 3')
+        // console.log('CAMINHO 3')
         setCheckConnect(true);
       }
     }
