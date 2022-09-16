@@ -45,34 +45,36 @@ function ListaMenu(props) {
   useEffect(() => {
     if (load && newSuspendData !== "") {
       if (props.tipoMenu === "onepage") {
-        setListItens(
-          props.listItens.map((list, id) => {
-            if (props.lastVisited[id] === 1) {
-              currentClass = "";
-              newSuspendData[id] = 1;
-              if (id === props.menuAtivo) {
-                currentClass = "active";
-              }
-            } else {
-              if (isScorm) {
-                currentClass = "travado";
-              } else {
+        if (!changeMenu) {
+          setListItens(
+            props.listItens.map((list, id) => {
+              if (props.lastVisited[id] === 1) {
                 currentClass = "";
+                newSuspendData[id] = 1;
+                if (id === props.menuAtivo) {
+                  currentClass = "active";
+                }
+              } else {
+                if (isScorm) {
+                  currentClass = "travado";
+                } else {
+                  currentClass = "";
+                }
               }
-            }
 
-            return (
-              <li
-                key={id}
-                onClick={(e) => props.onClick(e)}
-                className={currentClass}
-                data-top={list.menu}
-              >
-                {list.content}
-              </li>
-            );
-          })
-        );
+              return (
+                <li
+                  key={id}
+                  onClick={(e) => props.onClick(e)}
+                  className={currentClass}
+                  data-top={list.menu}
+                >
+                  {list.content}
+                </li>
+              );
+            })
+          );
+        }
       } else {
         if (!changeMenu) {
           setListItens(
@@ -109,60 +111,30 @@ function ListaMenu(props) {
       }
 
       if (props.tipoMenu === "onepage") {
-        // if (isScorm) {
-        //   props.sco.setSuspendData("menu", newSuspendData);
-        // } else {
-        //   window.sessionStorage.setItem("menu", newSuspendData);
-        // }
+        let newData_Items = [...newSuspendData];
 
-        // if (props.bottomReached && !endScroll) {
-        //   let newArr = [...newSuspendData];
-        //   newArr.forEach((obj) => {
-        //     obj = 1;
-        //   });
-        //   props.sco.setSuspendData("menu", newArr);
+        let newCounter = Number(0);
+        newData_Items.forEach((obj) => {
+          if (obj === 1) newCounter++;
+        });
 
-        //   // if (isScorm) {
-        //   //   props.sco.setStatus("completed");
-        //   // } else {
-        //   //   window.sessionStorage.setItem("status", "completed");
-        //   // }
+        // console.log(newCounter, newData_Items, endScroll, props.bottomReached)
 
-        //   setEndScroll(true);
-        // }
-
-        if (props.bottomReached && !endScroll) {
-          let newData_Items = [...newSuspendData];
-          let newData_fromItem = newData_Items[props.itemVisited];
-          newData_fromItem = 1;
-          newData_Items[props.itemVisited] = newData_fromItem;
-
-          let newCounter = Number(0);
-          newData_Items.forEach((obj) => {
-            if (obj === 1) newCounter++;
-          });
-
-          if (newCounter !== newData_Items.length) {
-            let newList_Items = [...listItens];
-            let newItem_fromList = { ...newList_Items[props.itemVisited + 1] };
-            newList_Items[props.itemVisited + 1] = newItem_fromList;
-            setListItens(newList_Items);
-
-            if (!dataChanged) {
-              // console.log("Menu_Data: ", newData_Items);
-              setMenuPages(newData_Items);
-              setDataChanged(true);
-            } else {
-              // console.log("Menu: ", menuPages);
-              setScormSaved(true);
-              setEndScroll(true);
-            }
-          } else if (newCounter === newData_Items.length && !travaComplete) {
+        if (newCounter !== newData_Items.length) {
+          if (!dataChanged) {
             setMenuPages(newData_Items);
+            setDataChanged(true);
+            setScormSaved(false);
+          } else {
             setScormSaved(true);
-            isScorm && props.sco.setStatus("completed");
-            console.log("Completed");
+            setDataChanged(false);
           }
+        } else if (newCounter === newData_Items.length && props.bottomReached && !endScroll) {
+          setMenuPages(newData_Items);
+          setScormSaved(true);
+          isScorm && props.sco.setStatus("completed");
+          console.log("Completed");
+          setEndScroll(true);
         }
       } else {
         if (props.bottomReached && !endScroll) {
@@ -219,24 +191,30 @@ function ListaMenu(props) {
 
   // let dadosGravados = props.sco.getSuspendData("menu");
   // props.sco.setSuspendData("menu", newSuspendData);
-  if (props.tipoMenu === "onepage") {
-    return (
-      <Fragment>
-        <SaveScorm />
-        <TagElement className={`list ${props.className}`}>
-          {listItens}
-        </TagElement>
-      </Fragment>
-    );
+  if (!load && newSuspendData.length === 0) {
+    return <div>carregando</div>;
   } else {
-    return (
-      <Fragment>
-        {dataChanged && !scormSaved && <SaveScorm />}
-        <TagElement className={`list ${props.className}`}>
-          {listItens}
-        </TagElement>
-      </Fragment>
-    );
+    if (props.tipoMenu === "onepage") {
+      // console.log('Data: ', dataChanged, ' - Scorm: ', scormSaved)
+      // if (dataChanged && !scormSaved) console.log('Sco Saved')
+      return (
+        <Fragment>
+          {dataChanged && !scormSaved && <SaveScorm />}
+          <TagElement className={`list ${props.className}`}>
+            {listItens}
+          </TagElement>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          {dataChanged && !scormSaved && <SaveScorm />}
+          <TagElement className={`list ${props.className}`}>
+            {listItens}
+          </TagElement>
+        </Fragment>
+      );
+    }
   }
 }
 

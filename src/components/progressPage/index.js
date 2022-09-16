@@ -19,7 +19,8 @@ function ProgressPage(props) {
 
   // const [menuScrolled, setMenuScrolled] = useState(0);
   const { menuScrolled, setMenuScrolled } = useContext(GlobalState);
-  
+  const { endPosition, setEndPosition} = useContext(GlobalState);
+
   const [ endPositionProg, setEndPositionProg ] = useState(false);
   const { pagesData } = useContext(GlobalState);
   const menuList = Array.apply(null, document.querySelectorAll("section"));
@@ -30,7 +31,7 @@ function ProgressPage(props) {
     return () => {
       window.removeEventListener("scroll", scrollPoint);
     };
-  }, [lastWidthBar, menuListTop, menuScrolled, endPositionProg]);
+  }, [lastWidthBar, menuListTop, menuScrolled, endPosition, endPositionProg]);
 
   useEffect(() => {
     if (pagesData.curso.mode == "onepage") {
@@ -50,6 +51,7 @@ function ProgressPage(props) {
     // console.log((scrollHeight - scrollPosition) / scrollHeight);
 
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+      setEndPosition(true);
       setEndPositionProg(true);
     }
 
@@ -64,6 +66,7 @@ function ProgressPage(props) {
     setMenuScrolled(numMaior);
 
     if (endPositionProg) {
+      setEndPosition(false);
       setEndPositionProg(false);
     } else {
       let barUpdated = calcPercentage(

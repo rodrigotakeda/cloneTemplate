@@ -54,7 +54,11 @@ function ScreenRoutes(props) {
       recebeLoad = loadScorm_Func(props.sco);
       // console.log('Load:', recebeLoad)
       setMenuPages(recebeLoad.menu);
-      setStartPage(recebeLoad.paginaInicial);
+
+      if (pagesData.curso.mode == "onepage") {
+        setStartPage(0);
+      } else {
+        setStartPage(recebeLoad.paginaInicial); }
 
       setCheckLoaded(true);
     }
