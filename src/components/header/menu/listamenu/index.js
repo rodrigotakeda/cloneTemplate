@@ -137,6 +137,7 @@ function ListaMenu(props) {
           setEndScroll(true);
         }
       } else {
+        console.log('Bottom:', props.bottomReached)
         if (props.bottomReached && !endScroll) {
           let newData_Items = [...newSuspendData];
           let newData_fromItem = newData_Items[props.itemVisited];
@@ -172,7 +173,7 @@ function ListaMenu(props) {
               setMenuPages(newData_Items);
               setDataChanged(true);
             } else {
-              // console.log("Menu: ", menuPages);
+              console.log("Menu: ", menuPages);
               setScormSaved(true);
               setEndScroll(true);
             }

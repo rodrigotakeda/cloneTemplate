@@ -51,7 +51,6 @@ function ProgressPage(props) {
     // console.log((scrollHeight - scrollPosition) / scrollHeight);
 
     if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-      setEndPosition(true);
       setEndPositionProg(true);
     }
 
@@ -66,7 +65,6 @@ function ProgressPage(props) {
     setMenuScrolled(numMaior);
 
     if (endPositionProg) {
-      setEndPosition(false);
       setEndPositionProg(false);
     } else {
       let barUpdated = calcPercentage(

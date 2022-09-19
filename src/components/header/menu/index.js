@@ -119,7 +119,6 @@ function Menu(props) {
         />
       );
     } else {
-      // console.log("Menu", props.pageAtual)
       menuRender = (
         <ListaMenu
           tagElement="ul"

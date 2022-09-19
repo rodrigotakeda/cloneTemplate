@@ -16,6 +16,13 @@ function LoadPage(props) {
   );
 
   useEffect(() => {
+    if (load) {
+      let hasVScroll = document.body.scrollHeight.toFixed() > document.body.clientHeight.toFixed();
+      if (!hasVScroll) { setEndPosition(true) }
+    }
+  }, [load]);
+
+  useEffect(() => {
     window.onbeforeunload = function () {
       resetWindowScrollPosition();
     };
